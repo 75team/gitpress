@@ -1,15 +1,20 @@
 //github api
+'use strict'
 var when = require('when');
 
 var GitHubApi = require('github');
 var github = new GitHubApi({
-    // required
-    version: "3.0.0",
-    // optional
-    timeout: 5000
+	// required
+	version: "3.0.0",
+	// optional
+	timeout: 5000,
+	//debug: true
 });
 
 var mixin = require('node-mixin');
+
+var client_id = '5283e94694c3f4d149a7', 
+	client_secret = '4e32758f32e1e5b23ee4672ddf1861f51729c11f';
 
 function GitPress(user, repo){
 	this.options = {
@@ -26,6 +31,21 @@ GitPress.prototype.init = function(){
 		mixin(self.options, content);
 		return self.options;	
 	});
+}
+
+GitPress.prototype.markdown = function(text) {
+	var deferred = when.defer(),
+		self = this;
+
+	github.markdown.render({text:text}, function(err, res){
+		if(res){
+			deferred.resolve(res.data);
+		}else{
+			deferred.reject(err);
+		}
+	});	
+
+	return deferred.promise;
 }
 
 GitPress.prototype.getContent = function(path) {
@@ -51,11 +71,12 @@ GitPress.prototype.getContent = function(path) {
 	return deferred.promise;
 }
 
-GitPress.prototype.getList = function(){
+GitPress.prototype.getList = function(docs){
 
 	var deferred = when.defer();
 
-	var docs = this.options.docs;
+	docs = docs || this.options.docs;
+	
 	var ret = [], promises = [], blob_promises = [];
 	var self = this;
 
@@ -74,19 +95,14 @@ GitPress.prototype.getList = function(){
 				var doc = res.value;
 
 				if(doc instanceof Array){
-					//type dir
-					//deferred.resolve('ok dir');
-
 					for(var j = 0; j < doc.length; j++){
 						var blob = doc[j];
 
 						if(blob.type == 'file'){
-							//ret.push(blob);
 							blob_promises.push(self.getContent(blob.path));
 						}
 					}
 				}else if(doc.type == 'file'){
-					//console.log(doc);
 					ret.push(doc);
 				}
 			}
@@ -111,17 +127,75 @@ GitPress.prototype.getList = function(){
 	return deferred.promise;	
 }
 
-GitPress.prototype.getContents = function(page){
+function getType(types, name){
+	for(var type in types){
+		var reg = new RegExp(type);
+		if(reg.test(name)){
+			return types[type];
+		}
+	}
+}
+
+GitPress.prototype.getContents = function(docs, page){
+	if(docs && !(docs instanceof Array)){
+		docs = [docs];
+	}
+
 	page = page || 1;
 
-	return this.getList().then(function(res){
-		return res;
+	var perpage = this.options.perpage,
+		self = this;
+
+	//console.log(this.options);
+
+	return this.getList(docs).then(function(list){
+		var res = [];
+
+		for(var i = 0; i < list.length; i++){
+			var blob = list[i];
+			var content = new Buffer(blob.content, 'base64').toString();
+			var type = getType(self.options.types, blob.name);
+			if(type){
+				res.push({
+					type: type, 
+					name: blob.name,
+					path: blob.path,
+					url: blob.html_url,
+					content: content
+				});
+			}
+		}
+
+		res.sort(function(a,b){
+			return a.name > b.name ? -1 : 1
+		});
+
+		return res.slice((page - 1) * perpage, page * perpage);
 	});
+}
+
+//hack http send
+var _send = github.httpSend;
+
+github.httpSend = function(msg, block, callback){
+	
+	block.url += block.url.indexOf('?') > -1 ? '&' : '?';
+	block.url += 'client_id=' + client_id + '&client_secret=' + client_secret;
+
+	//console.log(block.method, block);
+
+	return _send.apply(github, arguments);
 }
 
 module.exports = GitPress;
 
 var press = new GitPress('akira-cn', 'blog');
+
+/*press.markdown("abc").then(function(res){
+	console.log(res);
+}).otherwise(function(err){
+	console.log(err);
+});*/
 
 /*press.getContent('posts/2013-11-12-my-first-blog.md').then(function(res){
 	console.log(res);
@@ -129,7 +203,7 @@ var press = new GitPress('akira-cn', 'blog');
 	console.log(err);
 });*/
 
-press.init().then(function(res){
+/*press.init().then(function(res){
 	//console.log(res);
 	return press.getContents();
 })
@@ -138,4 +212,4 @@ press.init().then(function(res){
 })
 .otherwise(function(err){
 	console.log(err);
-});
+});*/
