@@ -25,9 +25,9 @@ module.exports = Action(function(){
             var host = this.http.req.headers.host;
 
             if(host == 'gitpress.org'){
-                host = 'blog.akira-cn.gitpress.org';
+                host = 'gitpress.akira-cn.gitpress.org';
             }
-            
+
             var repo = host.replace(".gitpress.org", '').split('.');
 
             if(repo.length == 1){
