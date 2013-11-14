@@ -70,6 +70,8 @@ GitPress.prototype.init = function(){
 		}, function(err, res){
 			if(!err){
 				self.options.update = res.updated_at;
+				self.options.description = res.description;
+				self.options.title = res.name;
 
 				fs.writeFile(reposFile, 
 					JSON.stringify({data:res, timeStamp: Date.now()}), 
@@ -89,7 +91,7 @@ GitPress.prototype.init = function(){
 			var content = (new Function("return " + res.content))();
 			
 			//get tpl
-			mixin(self.options, content);
+			mixin(self.options, content, true);
 			mixin(self.options, defaultConf);
 
 			//console.log(self.options);
@@ -154,8 +156,10 @@ GitPress.prototype.getContent = function(path, sha) {
 				res.content = content;	
 
 				if(type == 'markdown'){
-					content = res.content.replace(/^(#+)?(.*)\n/, '$1 <a href="/~'
+					content = res.content.replace(/^(#+)?\s*(.*)\n/, '$1 <a href="/~'
 						+ res.path + '">$2</a>');
+
+					res.title = RegExp.$2;
 					
 					press.markdown(content)
 						.then(function(html){
@@ -169,6 +173,7 @@ GitPress.prototype.getContent = function(path, sha) {
 					});
 
 				}else if(type == 'code'){
+					res.title = res.name;
 
 					press.markdown('### [' + 
 						res.name + '](' +
@@ -184,6 +189,8 @@ GitPress.prototype.getContent = function(path, sha) {
 						});
 				}else{
 					res.html = res.content;
+
+					res.title = '[no title]';
 
 					fs.writeFile(cacheFile, 
 						JSON.stringify({data:res, update: self.options.update}), 
@@ -291,7 +298,8 @@ GitPress.prototype.getContents = function(docs, page){
 					path: blob.path,
 					url: blob.html_url,
 					content: blob.content,
-					html: blob.html
+					html: blob.html,
+					title: blob.title
 				});
 			}
 		}
