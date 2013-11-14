@@ -24,6 +24,10 @@ module.exports = Action(function(){
             //repos.user.gitpress.org
             var host = this.http.req.headers.host;
 
+            if(host == 'gitpress.org'){
+                host = 'blog.akira-cn.gitpress.org';
+            }
+            
             var repo = host.replace(".gitpress.org", '').split('.');
 
             if(repo.length == 1){
@@ -32,47 +36,34 @@ module.exports = Action(function(){
 
             var press = new GitPress(repo[1], repo[0]);
 
-            var post = this.param('p');
+            var post = this.param('p'), page = this.param('page');
 
             press.init().then(function(res){
-                return press.getContents(post);
+                //console.log(post);
+                return press.getContents(post, page);
             })
             .then(function(res){
+                //console.log(res);
                 var contents = [];
-                var promises = [];
-
-                if(!(res instanceof Array)){
-                    res = [res];
-                }
-
                 for(var i = 0; i < res.length; i++){
-                    var blob = res[i];
-                    if(blob.type == 'markdown'){
-                        var content = blob.content.replace(/^(#+)?(.*)\n/, '$1 <a href="/~'
-                            + blob.path + '">$2</a>');
-                        promises.push(press.markdown(content));
-                    }else if(blob.type == 'code'){
+                    if(!post){
+                        var parts = res[i].html.split(/\n\n\n\n/);
+                        contents.push(parts[0]);
 
-                        promises.push(press.markdown('### [' + 
-                            blob.name + '](' +
-                            blob.url +')\n```\n' + blob.content + '\n```'));
+                        if(parts.length > 1){
+                            contents.push('<br/><a href="/~' + res[i].path + '">继续阅读 &gt</a>');
+                        }
                     }else{
-                        var defer = when.defer();
-                        defer.resolve(blob.content);
-                        promises.push(defer.promise);
+                        contents.push(res[i].html);
                     }
                 }
-                when.all(promises).then(function(res){
-                    self.assign('contents', res);
-                    self.assign('host', host);
-                    self.display(); 
-                    //self.end(res);
-                }).otherwise(function(err){
-                    console.log(err);
-                })
+                self.assign('contents', contents);
+                self.assign('host', host);
+                self.assign('title', press.options.title);
+                self.display(); 
             })
             .otherwise(function(err){
-                console.log(err);
+                self.end(err);
             });
 
             //console.log(press);

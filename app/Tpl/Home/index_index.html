@@ -13,13 +13,13 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>Blog by akira-cn</title>
+    <title><%= title %></title>
   </head>
 
   <body>
     <header>
       <div class="inner">
-        <a href="http://{{= host }}"><h1>Akira's Blog</h1></a>
+        <a href="http://<%= host %>"><h1><%= title %></h1></a>
         <a href="https://github.com/akira-cn/blog" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
@@ -27,9 +27,9 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-			{{ for(var i=0; i<contents.length; i++) {}}
-			   {{- contents[i] }}
-			{{ } }}       
+			<% for(var i=0; i<contents.length; i++) {%>
+			   <%- contents[i] %>
+			<% } %>       
         </section>
 
         <aside id="sidebar">
