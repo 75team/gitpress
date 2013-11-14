@@ -7,6 +7,6 @@
 		"\\.html?$"            : "html",
 		".*"                   : "text"		
 	},
-	"title"  : "Akira's Blog",
+	"title"  : "Git Press +",
 	"comment"  : "on"
 }
