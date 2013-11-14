@@ -1,0 +1,12 @@
+{
+	"docs"      : ["docs"],	
+	"perpage"   : 10,
+	"types"     : {
+		"\\.(md||markdown)$"   : "markdown", 
+		"\\.(js||css||json)$"  : "code",
+		"\\.html?$"            : "html",
+		".*"                   : "text"		
+	},
+	"title"  : "Akira's Blog",
+	"comment"  : "on"
+}
