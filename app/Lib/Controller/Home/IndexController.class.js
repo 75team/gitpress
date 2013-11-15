@@ -51,6 +51,7 @@ module.exports = Controller(function(){
                 return press.getContents(post, page);
             })
             .then(function(res){
+
                 var contents = [];
                 var template = press.options.template,
                     perpage = press.options.perpage;

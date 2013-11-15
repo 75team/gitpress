@@ -163,7 +163,7 @@ GitPress.prototype.getContent = function(path, sha) {
 
 					res.title = RegExp.$2;
 					
-					press.markdown(content)
+					self.markdown(content)
 						.then(function(html){
 							res.html = html;
 
@@ -177,7 +177,7 @@ GitPress.prototype.getContent = function(path, sha) {
 				}else if(type == 'code'){
 					res.title = res.name;
 
-					press.markdown('### [' + 
+					self.markdown('### [' + 
 						res.name + '](' +
 						res.url +')\n```\n' + res.content + '\n```')
 						.then(function(html){
