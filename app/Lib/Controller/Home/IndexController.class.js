@@ -58,7 +58,7 @@ module.exports = Controller(function(){
                     self.assign('title', press.options.title);
                     self.assign('user', press.options.user);
                     self.assign('repo', press.options.repo);
-                    self.assign('post', post);
+                    self.assign('comment', press.options.comment == 'on' && post);
                     self.assign('pageID', press.options.user + '/' 
                         + press.options.repo + '/' + (post || 'index'));
                     self.assign('template', template);
@@ -183,7 +183,7 @@ module.exports = Controller(function(){
                 self.assign('title', press.options.title);
                 self.assign('user', press.options.user);
                 self.assign('repo', press.options.repo);
-                self.assign('post', null);
+                self.assign('comment', false);
                 self.assign('template', template);
                 self.assign('page', page);
                 self.assign('hasNext', hasNext);

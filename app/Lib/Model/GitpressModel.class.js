@@ -79,9 +79,12 @@ var defaultConf = {
 		"\\.html?$"            : "html",
 		".*"                   : "text"		
 	},
+	//domain_alias:  ["your.domain"],
+	//friends   :   [{name, title, url}],
 	"title"		: "blog",
 	"comment"	: "on",
-	"template"	: "default"
+	"template"	: "default",
+	"order"		: "~text"    //number、text
 };
 
 GitPress.prototype.init = function(){
@@ -388,7 +391,21 @@ GitPress.prototype.findContents = function(docs, words, page){
 		}
 
 		res.sort(function(a,b){
-			return a.name > b.name ? -1 : 1
+			var aa = a.name, bb = b.name,
+				order = self.options.order || "~text",
+				desc = false;
+
+			if(order.indexOf("~") == 0){
+				desc = true;
+				order = order.slice(1);
+			}
+
+			if(order == 'number'){
+				aa = parseInt(aa) || 0;
+				bb = parseInt(bb) || 0;
+			}
+
+			return (aa > bb)^desc ? -1 : 1
 		});
 
 		return res.slice((page - 1) * perpage, page * perpage + 1);
@@ -425,7 +442,21 @@ GitPress.prototype.getContents = function(docs, page){
 		}
 
 		res.sort(function(a,b){
-			return a.name > b.name ? -1 : 1
+			var aa = a.name, bb = b.name,
+				order = self.options.order || "~text",
+				desc = false;
+
+			if(order.indexOf("~") == 0){
+				desc = true;
+				order = order.slice(1);
+			}
+
+			if(order == 'number'){
+				aa = parseInt(aa) || 0;
+				bb = parseInt(bb) || 0;
+			}
+
+			return (aa > bb)^desc ? -1 : 1
 		});
 
 		return res.slice((page - 1) * perpage, page * perpage + 1);
