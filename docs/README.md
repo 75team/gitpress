@@ -19,7 +19,19 @@ gitpress 是一个轻量的github博客自动生成平台
 		".*"                   : "text"		
 	},
 	"title"  : "Akira's Blog",
-	"comment"  : "on"
+	"comment"  : "on",
+	"friends"  : [
+		{
+		  "name"  : "github",
+		  "title"  : "github",
+		  "url"  : "http://github.com"		  
+		},
+		{
+		  "name"  : "gitpress",
+		  "title"  : "gitpress",
+		  "url"  : "http://gitpress.org"
+		}
+	] 
 }
 ```
 
