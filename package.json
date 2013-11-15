@@ -1,0 +1,44 @@
+{
+  "name": "gitpress",
+  "description": "press your blog with github",
+  "version": "0.1.0",
+  "author": {
+    "name": "akira-cn",
+    "email": "akira.cn@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "akira-cn",
+      "email": "akira.cn@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "thinkjs": "~0.1.4",
+    "node-mixin": "~1.0.0",
+    "github": "~0.1.12"
+  },
+  "keywords": [
+    "gitpress",
+    "blog",
+    "web",
+    "rest",
+    "restful",
+    "app",
+    "api"
+  ],
+  "homepage": "www.gitpress.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akira-cn/gitpress"
+  },
+  "main": "www/index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "licenses": [
+    {
+      "type": "The MIT License",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
+}

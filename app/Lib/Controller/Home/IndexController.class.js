@@ -11,15 +11,15 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
-module.exports = Action(function(){
+module.exports = Controller(function(){
     return {
         /*init: function(){
             this.super("init");
         },*/
         getRepo: function(){
-            var host = this.http.req.headers.host;
+            var host = this.http.hostname;
 
-            if(host == 'gitpress.org'){
+            if(host == 'gitpress.org' || host == 'www.gitpress.org'){
                 host = 'gitpress.akira-cn.gitpress.org';
             }
 
@@ -29,25 +29,35 @@ module.exports = Action(function(){
                 repo.unshift('blog');
             }
 
+            if(repo[1] == 'ququ'){
+                repo[1] = 'qgy18';
+            }
+
             return {user:repo[1], repo:repo[0]};            
         },
         indexAction: function(){
             //repos.user.gitpress.org
-            var repo = this.getRepo(), host = this.http.req.headers.host;
+            var repo = this.getRepo(), host = this.http.hostname;
 
             var self = this;
             var GitPress = think_require("GitpressModel");
             
             var press = new GitPress(repo.user, repo.repo);
 
-            var post = this.param('p'), page = this.param('page');
+            var post = this.param('p'), page = this.param('pn') || 1;
 
+            //console.log(repo);
             press.init().then(function(res){
-                //console.log(post);
                 return press.getContents(post, page);
             })
             .then(function(res){
                 var contents = [];
+                var template = press.options.template,
+                    perpage = press.options.perpage;
+                
+                var hasNext = res.length > perpage;
+                res = res.slice(0, perpage);
+
                 for(var i = 0; i < res.length; i++){
                     if(!post){
                         var parts = res[i].html.split(/\n\n\n\n/);
@@ -61,13 +71,23 @@ module.exports = Action(function(){
                     }
                 }
                 if(contents.length){
+
                     self.assign('contents', contents);
                     self.assign('host', host);
                     self.assign('title', press.options.title);
                     self.assign('user', repo.user);
                     self.assign('repo', repo.repo);
+                    self.assign('post', post);
                     self.assign('pageID', host + '/' + (post || 'index'));
-                    self.display(); 
+                    self.assign('template', template);
+                    self.assign('page', page);
+                    self.assign('hasNext', hasNext);
+
+                    self.assign('q', '');
+
+                    self.assign('friends', press.options.friends);
+
+                    self.display(template); 
                 }else{
                     self.end(
                         {"code":404,"message":"{\"message\":\"Not Found\",\"documentation_url\":\"http://developer.github.com/v3\"}"}
@@ -77,13 +97,9 @@ module.exports = Action(function(){
             .otherwise(function(err){
                 self.end(err);
             });
-
-            //console.log(press);
-            //this.assign("title", "hello");
-            //this.display(); //render Home/index_index.html file
         },
         rssAction: function(){
-            var repo = this.getRepo(), host = this.http.req.headers.host;
+            var repo = this.getRepo(), host = this.http.hostname;
 
             var self = this;
             var GitPress = think_require("GitpressModel");
@@ -135,8 +151,71 @@ module.exports = Action(function(){
             });
 
         },
-        testAction: function(){
-            this.end("hello, akira!");
+        searchAction: function(){
+            var q = this.param('q');
+
+            var repo = this.getRepo(), host = this.http.hostname;
+
+            var self = this;
+            var GitPress = think_require("GitpressModel");
+            
+            var press = new GitPress(repo.user, repo.repo);
+
+            var post = null, page = this.param('pn') || 1;
+
+            press.init().then(function(res){
+                //console.log(post);
+                return press.findContents(post, q, page);
+            })
+            .then(function(res){
+
+                var contents = [];
+                var template = press.options.template,
+                    perpage = press.options.perpage;
+                
+                var hasNext = res.length > perpage;
+                res = res.slice(0, perpage);
+
+                for(var i = 0; i < res.length; i++){
+                    if(!post){
+                        var parts = res[i].html.split(/\n\n\n\n/);
+                        contents.push(parts[0]);
+
+                        if(parts.length > 1){
+                            contents.push('[<a href="/~' + res[i].path + '">...</a>]');
+                        }
+                    }else{
+                        contents.push(res[i].html);
+                    }
+                }
+                if(!contents.length){
+                    shint = '<div class="search-result-hint">Sorry, I found nothing :(</div>';
+                }else{
+                    shint = 
+                        '<div class="search-result-hint">Search result for : ' + q + '</div>';
+                }
+            
+                    
+                self.assign('contents', contents);
+                self.assign('host', host);
+                self.assign('title', press.options.title);
+                self.assign('user', repo.user);
+                self.assign('repo', repo.repo);
+                self.assign('post', null);
+                self.assign('template', template);
+                self.assign('page', page);
+                self.assign('hasNext', hasNext);
+
+                self.assign('q', q);
+                self.assign('friends', press.options.friends);
+
+                self.display(template); 
+
+            })
+            .otherwise(function(err){
+                self.end(err);
+            });
+            //this.end("hello, akira!");
         }
     }
 });

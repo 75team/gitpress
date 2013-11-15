@@ -38,7 +38,8 @@ var defaultConf = {
 		".*"                   : "text"		
 	},
 	"title"		: "blog",
-	"comment"	: "on"
+	"comment"	: "on",
+	"template"	: "default"
 };
 
 GitPress.prototype.init = function(){
@@ -93,6 +94,7 @@ GitPress.prototype.init = function(){
 			//get tpl
 			mixin(self.options, content, true);
 			mixin(self.options, defaultConf);
+
 
 			//console.log(self.options);
 
@@ -275,6 +277,49 @@ function getType(types, name){
 	}
 }
 
+GitPress.prototype.findContents = function(docs, words, page){
+	words = words.split(/\s+/);
+
+	if(docs && !(docs instanceof Array)){
+		docs = [docs];
+	}
+
+	page = page || 1;
+
+	var perpage = this.options.perpage,
+		self = this;
+
+	return this.getList(docs).then(function(list){
+		var res = [];
+
+		for(var i = 0; i < list.length; i++){
+			var blob = list[i];
+			if(blob.type){
+				for(var j = 0; j < words.length; j++){
+					if(blob.content.indexOf(words[j]) >= 0){
+						res.push({
+							sha:  blob.sha,
+							type: blob.type, 
+							name: blob.name,
+							path: blob.path,
+							url: blob.html_url,
+							content: blob.content,
+							html: blob.html,
+							title: blob.title
+						});
+					}
+				}
+			}
+		}
+
+		res.sort(function(a,b){
+			return a.name > b.name ? -1 : 1
+		});
+
+		return res.slice((page - 1) * perpage, page * perpage + 1);
+	});
+}
+
 GitPress.prototype.getContents = function(docs, page){
 	if(docs && !(docs instanceof Array)){
 		docs = [docs];
@@ -308,7 +353,7 @@ GitPress.prototype.getContents = function(docs, page){
 			return a.name > b.name ? -1 : 1
 		});
 
-		return res.slice((page - 1) * perpage, page * perpage);
+		return res.slice((page - 1) * perpage, page * perpage + 1);
 	});
 }
 
@@ -327,7 +372,7 @@ github.httpSend = function(msg, block, callback){
 
 module.exports = GitPress;
 
-var press = new GitPress('akira-cn', 'blog');
+//var press = new GitPress('akira-cn', 'blog');
 
 /*press.markdown("abc\n<!--more-->\ndef").then(function(res){
 	console.log(res.split(/\n\n\n\n/));
