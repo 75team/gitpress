@@ -20,7 +20,49 @@ var client_id = '5283e94694c3f4d149a7',
 
 //console.log(__dirname);
 
+function parseRepo(host){
+	if(/gitpress.org$/.test(host)){
+	    if(host == 'gitpress.org' || host == 'www.gitpress.org'){
+	        host = 'gitpress.akira-cn.gitpress.org';
+	    }
+
+	    var repo = host.replace(".gitpress.org", '').split('.');
+
+	    if(repo.length == 1){
+	        repo.unshift('blog');
+	    }
+
+	    if(repo[1] == 'ququ'){
+	        repo[1] = 'qgy18';
+	    }
+
+	    return {user:repo[1], repo:repo[0]}; 	
+	}else{
+		var domainFile = __dirname + '/cache/domains.rec';
+
+		if(fs.existsSync(domainFile)){
+			var map = fs.readFileSync(domainFile, {encoding: 'utf-8'});
+			map = JSON.parse(map);
+			if(map[host]){
+				return {user: map[host].user, repo: map[host].repo};
+			}else{
+				return {user:'akira-cn', repo:'gitpress'};
+			}
+		}else{
+			return {user:'akira-cn', repo:'gitpress'};
+		}
+	}
+}
+
 function GitPress(user, repo){
+	process.umask(0);
+
+	if(arguments.length == 1){
+		var info = parseRepo(user);
+		user = info.user;
+		repo = info.repo;
+	}
+
 	this.options = {
 		user: user,
 		repo: repo,
@@ -46,7 +88,6 @@ GitPress.prototype.init = function(){
 	var self = this,
 		cache = self.options.cache;
 
-	process.umask(0);
 	if(!fs.existsSync(cache)){
 		fs.mkdirSync(cache);
 	}
@@ -95,7 +136,41 @@ GitPress.prototype.init = function(){
 			mixin(self.options, content, true);
 			mixin(self.options, defaultConf);
 
+			var domains = self.options["domain-alias"];
+			if(domains){
+				var map = {};
+				var domainFile = __dirname + '/cache/domains.rec';
 
+				if(fs.existsSync(domainFile)){
+					map = fs.readFileSync(domainFile, {encoding: 'utf-8'});
+					map = JSON.parse(map);
+				}
+
+				//domain-alias [domain1, ~domain2]
+				var user = self.options.user, repo = self.options.repo;
+
+				for(var i = 0; i < domains.length; i++){
+					var domain = domains[i];
+
+					if(domain.charAt(0) == '~'){
+						//for delete
+						domain = domain.slice(1);
+						if(domain in map && map[domain].user == user
+							&& map[domain].repo == repo){
+							delete map[domain];
+						}						
+					}else{
+						if(!(domain in map)){
+							map[domain] = {user: self.options.user,
+								repo: self.options.repo};
+						}
+					}
+				}
+
+				fs.writeFile(domainFile, 
+					JSON.stringify(map), 
+					{mode: 438});
+			}
 			//console.log(self.options);
 
 			return self.options;	

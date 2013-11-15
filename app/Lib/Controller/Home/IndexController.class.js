@@ -16,37 +16,17 @@ module.exports = Controller(function(){
         /*init: function(){
             this.super("init");
         },*/
-        getRepo: function(){
-            var host = this.http.hostname;
-
-            if(host == 'gitpress.org' || host == 'www.gitpress.org'){
-                host = 'gitpress.akira-cn.gitpress.org';
-            }
-
-            var repo = host.replace(".gitpress.org", '').split('.');
-
-            if(repo.length == 1){
-                repo.unshift('blog');
-            }
-
-            if(repo[1] == 'ququ'){
-                repo[1] = 'qgy18';
-            }
-
-            return {user:repo[1], repo:repo[0]};            
-        },
         indexAction: function(){
             //repos.user.gitpress.org
-            var repo = this.getRepo(), host = this.http.hostname;
+            var host = this.http.hostname;
 
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(repo.user, repo.repo);
+            var press = new GitPress(host);
 
             var post = this.param('p'), page = this.param('pn') || 1;
 
-            //console.log(repo);
             press.init().then(function(res){
                 return press.getContents(post, page);
             })
@@ -76,10 +56,11 @@ module.exports = Controller(function(){
                     self.assign('contents', contents);
                     self.assign('host', host);
                     self.assign('title', press.options.title);
-                    self.assign('user', repo.user);
-                    self.assign('repo', repo.repo);
+                    self.assign('user', press.options.user);
+                    self.assign('repo', press.options.repo);
                     self.assign('post', post);
-                    self.assign('pageID', host + '/' + (post || 'index'));
+                    self.assign('pageID', press.options.user + '/' 
+                        + press.options.repo + '/' + (post || 'index'));
                     self.assign('template', template);
                     self.assign('page', page);
                     self.assign('hasNext', hasNext);
@@ -100,12 +81,12 @@ module.exports = Controller(function(){
             });
         },
         rssAction: function(){
-            var repo = this.getRepo(), host = this.http.hostname;
+            var host = this.http.hostname;
 
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(repo.user, repo.repo);
+            var press = new GitPress(host);
 
             var RSS = require('rss');
 
@@ -155,12 +136,12 @@ module.exports = Controller(function(){
         searchAction: function(){
             var q = this.param('q');
 
-            var repo = this.getRepo(), host = this.http.hostname;
+            var host = this.http.hostname;
 
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(repo.user, repo.repo);
+            var press = new GitPress(host);
 
             var post = null, page = this.param('pn') || 1;
 
@@ -200,8 +181,8 @@ module.exports = Controller(function(){
                 self.assign('contents', contents);
                 self.assign('host', host);
                 self.assign('title', press.options.title);
-                self.assign('user', repo.user);
-                self.assign('repo', repo.repo);
+                self.assign('user', press.options.user);
+                self.assign('repo', press.options.repo);
                 self.assign('post', null);
                 self.assign('template', template);
                 self.assign('page', page);
