@@ -1,5 +1,5 @@
 {
-	"docs"      : ["README.md", "posts"],	
+	"docs"      : ["README.md", "docs"],	
 	"perpage"   : 10,
 	"types"     : {
 		"\\.(md||markdown)$"   : "markdown", 
