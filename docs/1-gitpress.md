@@ -47,7 +47,7 @@ Want to use this property to change your website layout? See: [Setting Website's
 
 ### *domain alias*
 
-The default domain of your gitpress site is `http://repo.user.gitpress.org`. You can use your own domain as well. See: [Custom Domains](~docs/3-set-custom-domains) 
+The default domain of your gitpress site is `http://repo.user.gitpress.org`. You can use your own domain as well. See: [Custom Domains](~docs/3-set-custom-domains.md) 
 
 ### *perpage* 
 
