@@ -1,6 +1,6 @@
 ## Git Press +
 
-[Git Press +](http://www.gitpress.org) is a light weight tool to build and manage your blogs or your documents quite easier with [github](https://www.github.com) 
+[Git Press +](http://www.gitpress.org) is a light weight tool to build and manage your blogs or your documents quite easier with [github](https://www.github.com). 
 
 All the things you need to do is setting up a configure file named 'gitpress.json' on your github project. (If you let the gitpress.json empty, please make sure there is a README.md file in your project.)
 
