@@ -20,4 +20,8 @@ git commit -a -m 'add gitpress configure' & git push origin master
 
 ### Step THREE
 
-visit your site with `http://&lt;repo&gt;.&lt;user&gt;.gitpress.org`
+visit your site with `http://<repo>.<user>.gitpress.org`
+
+**When you push your files to your project, the new updates will effected in 2 or 3 minutes.**
+
+-------------

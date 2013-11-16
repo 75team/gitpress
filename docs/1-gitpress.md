@@ -43,11 +43,11 @@ The default value of this property is `["README.md", "README.markdown", "README"
 
 `template` property set the layout of the website, now the only valid value of this property is `"default"`.
 
-Want to use this property to change your website layout? See [Setting Website's Layout](~docs/2-website-layout.md)
+Want to use this property to change your website layout? See: [Setting Website's Layout](~docs/2-website-layouts.md)
 
 ### *domain alias*
 
-The default domain of your gitpress site is `http://repo.user.gitpress.org`. You can use your own domain as well. See [Set Custom Domain](~docs/3-set-custom-domain) 
+The default domain of your gitpress site is `http://repo.user.gitpress.org`. You can use your own domain as well. See: [Custom Domains](~docs/3-set-custom-domains) 
 
 ### *perpage* 
 
