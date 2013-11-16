@@ -162,7 +162,8 @@ aside a.button {
 }
 
 code, pre {
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  /*font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;*/
   color: #222;
   margin-bottom: 30px;
   font-size: 13px;
@@ -178,7 +179,7 @@ pre {
   padding: 20px;
   background: #fff;
   text-shadow: none;
-  overflow: auto;
+  overflow: hidden;
   border: solid 1px #f2f2f2;
 }
 pre code {
@@ -491,6 +492,11 @@ footer a:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
 
+.readmore {
+  float: right;
+  margin-top: -1.5em;
+}
+
 .search-result-hint {
   font-family: 'Architects Daughter';color:#666;
 }
@@ -517,3 +523,5 @@ ul.friends li{
   box-shadow: 3px 3px 5px #f0f0f0 inset;
   font-size: 16px;
 }
+
+#gotop { position:fixed!important;position:absolute;right:20px;bottom:20px;display:none; }

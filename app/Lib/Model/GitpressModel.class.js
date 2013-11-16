@@ -71,7 +71,7 @@ function GitPress(user, repo){
 }
 
 var defaultConf = {
-	"docs"      : ["posts"],	
+	"docs"      : ["README.md", "README.markdown", "README"],	
 	"perpage"   : 10,
 	"types"     : {
 		"\\.(md||markdown)$"   : "markdown", 
@@ -81,7 +81,7 @@ var defaultConf = {
 	},
 	//domain_alias:  ["your.domain"],
 	//friends   :   [{name, title, url}],
-	"title"		: "blog",
+	//"title"		: "[default is project name]",
 	"comment"	: "on",
 	"template"	: "default",
 	"order"		: "~text"    //number、text
@@ -115,6 +115,7 @@ GitPress.prototype.init = function(){
 		}, function(err, res){
 			if(!err){
 				self.options.update = res.updated_at;
+				
 				self.options.description = res.description;
 				self.options.title = res.name;
 
@@ -128,6 +129,9 @@ GitPress.prototype.init = function(){
 			}		
 		});
 	}else{
+		self.options.description = reposLog.data.description;
+		self.options.title = reposLog.data.name;
+		
 		deferred.resolve();
 	}
 
@@ -270,7 +274,7 @@ GitPress.prototype.getContent = function(path, sha) {
 				}else{
 					res.html = res.content;
 
-					res.title = '[no title]';
+					res.title = res.name;
 
 					fs.writeFile(cacheFile, 
 						JSON.stringify({data:res, update: self.options.update}), 
@@ -405,7 +409,7 @@ GitPress.prototype.findContents = function(docs, words, page){
 				bb = parseInt(bb) || 0;
 			}
 
-			return (aa > bb)^desc ? -1 : 1
+			return (aa < bb)^desc ? -1 : 1
 		});
 
 		return res.slice((page - 1) * perpage, page * perpage + 1);
@@ -456,7 +460,7 @@ GitPress.prototype.getContents = function(docs, page){
 				bb = parseInt(bb) || 0;
 			}
 
-			return (aa > bb)^desc ? -1 : 1
+			return (aa < bb)^desc ? -1 : 1
 		});
 
 		return res.slice((page - 1) * perpage, page * perpage + 1);

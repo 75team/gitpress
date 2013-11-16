@@ -42,11 +42,10 @@ module.exports = Controller(function(){
                 for(var i = 0; i < res.length; i++){
                     if(!post){
                         var parts = res[i].html.split(/\n\n\n\n/);
-                        contents.push(parts[0]);
-
                         if(parts.length > 1){
-                            contents.push('[<a href="/~' + res[i].path + '">...</a>]');
+                            parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }
+                        contents.push(parts[0]);
                     }else{
                         contents.push(res[i].html);
                     }
@@ -68,6 +67,7 @@ module.exports = Controller(function(){
                     self.assign('q', '');
 
                     self.assign('friends', press.options.friends);
+                    self.assign('description', press.options.description);
 
                     self.display(template); 
                 }else{
@@ -161,11 +161,10 @@ module.exports = Controller(function(){
                 for(var i = 0; i < res.length; i++){
                     if(!post){
                         var parts = res[i].html.split(/\n\n\n\n/);
-                        contents.push(parts[0]);
-
                         if(parts.length > 1){
-                            contents.push('[<a href="/~' + res[i].path + '">...</a>]');
+                            parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }
+                        contents.push(parts[0]);
                     }else{
                         contents.push(res[i].html);
                     }
@@ -190,6 +189,7 @@ module.exports = Controller(function(){
 
                 self.assign('q', q);
                 self.assign('friends', press.options.friends);
+                self.assign('description', press.options.description);
 
                 self.display(template); 
 

@@ -1,16 +1,17 @@
-## gitpress project
+## Git Press +
 
-gitpress 是一个轻量的github博客自动生成平台
+[Git Press +](http://www.gitpress.org) is a light weight tool to build and manage your blogs or your documents quite easier with [github](https://www.github.com) 
 
-它可以很方便地将你的github项目文档目录建立成博客
+All the things you need to do is setting up a configure file named 'gitpress.json' on your github project. (If you let the gitpress.json empty, please make sure there is a README.md file in your project.)
 
-你所需要做的事情只是提供一份简单的配置文档 gitpress.json 到你的项目根目录下
+When created gitpress.json, use http://repo.user.gitpress.org to visit your gitpress site and you will see what you want to see. :-)
 
-文档格式如下：
+*example file: github.json*
 
-```js
+```json
 {
-	"docs"      : ["posts"],	
+	"docs"      : ["posts"],
+	"template"	: "default",	
 	"perpage"   : 10,
 	"types"     : {
 		"\\.(md||markdown)$"   : "markdown", 
@@ -35,8 +36,3 @@ gitpress 是一个轻量的github博客自动生成平台
 }
 ```
 
-接下来往你的项目的 posts 目录中提交 markdown 文档
-
-用下面的地址访问你的项目文档：
-
-http://项目名.github用户名.gitpress.org
