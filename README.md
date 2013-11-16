@@ -21,34 +21,3 @@ git commit -a -m 'add gitpress configure' & git push origin master
 ### Step THREE
 
 visit your site with `http://&lt;repo&gt;.&lt;user&gt;.gitpress.org`
-
-*example file: github.json*
-
-```json
-{
-	"docs"      : ["posts"],
-	"template"	: "default",	
-	"perpage"   : 10,
-	"types"     : {
-		"\\.(md||markdown)$"   : "markdown", 
-		"\\.(js||css||json)$"  : "code",
-		"\\.html?$"            : "html",
-		".*"                   : "text"		
-	},
-	"title"  : "Akira's Blog",
-	"comment"  : "on",
-	"friends"  : [
-		{
-		  "name"  : "github",
-		  "title"  : "github",
-		  "url"  : "http://github.com"		  
-		},
-		{
-		  "name"  : "gitpress",
-		  "title"  : "gitpress",
-		  "url"  : "http://gitpress.org"
-		}
-	] 
-}
-```
-
