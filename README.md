@@ -2,7 +2,7 @@
 
 [Git Press +](http://www.gitpress.org) is a light weight tool to create the web site of your github project on the easist way.
 
-You can build your own site just in three step:
+You can build your own site just in three steps:
 
 ### Step ONE 
 
@@ -20,7 +20,7 @@ git commit -a -m 'add gitpress configure' & git push origin master
 
 ### Step THREE
 
-visit your site with http://&lt;repo&gt;.&lt;user&gt;.gitpress.org
+visit your site with `http://&lt;repo&gt;.&lt;user&gt;.gitpress.org`
 
 *example file: github.json*
 

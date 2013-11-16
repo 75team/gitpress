@@ -248,7 +248,6 @@ GitPress.prototype.getContent = function(path, sha) {
 					content = res.content.replace(/^(#+)?\s*(.*)\n/, '$1 <a href="/~'
 						+ res.path + '">$2</a>\n');
 
-					console.log(content);
 					res.title = RegExp.$2;
 					
 					self.markdown(content)
