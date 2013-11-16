@@ -32,6 +32,11 @@ function parseRepo(host){
 	        repo.unshift('blog');
 	    }
 
+	    if(repo.length > 2){
+	    	repo[0] = repo.slice(0, -1).join('.');
+	    	repo[1] = repo[repo.length - 1];
+	    }
+
 	    if(repo[1] == 'ququ'){
 	        repo[1] = 'qgy18';
 	    }
@@ -241,8 +246,9 @@ GitPress.prototype.getContent = function(path, sha) {
 
 				if(type == 'markdown'){
 					content = res.content.replace(/^(#+)?\s*(.*)\n/, '$1 <a href="/~'
-						+ res.path + '">$2</a>');
+						+ res.path + '">$2</a>\n');
 
+					console.log(content);
 					res.title = RegExp.$2;
 					
 					self.markdown(content)
