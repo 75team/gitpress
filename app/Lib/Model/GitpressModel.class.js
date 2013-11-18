@@ -48,6 +48,9 @@ function parseRepo(host){
 		if(fs.existsSync(domainFile)){
 			var map = fs.readFileSync(domainFile, {encoding: 'utf-8'});
 			map = JSON.parse(map);
+			
+			//console.log(map, host, map[host]);
+
 			if(map[host]){
 				return {user: map[host].user, repo: map[host].repo};
 			}else{
@@ -148,7 +151,9 @@ GitPress.prototype.init = function(){
 			mixin(self.options, content, true);
 			mixin(self.options, defaultConf);
 
-			var domains = self.options["domain-alias"];
+			var domains = self.options["domain-alias"] 
+				|| self.options["domain_alias"];
+
 			if(domains){
 				var map = {};
 				var domainFile = __dirname + '/cache/domains.rec';

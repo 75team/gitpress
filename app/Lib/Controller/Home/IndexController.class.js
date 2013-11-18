@@ -26,7 +26,7 @@ module.exports = Controller(function(){
             var press = new GitPress(host);
 
             var post = this.param('p'), page = this.param('pn') || 1;
-
+            
             press.init().then(function(res){
                 return press.getContents(post, page);
             })
@@ -71,9 +71,14 @@ module.exports = Controller(function(){
 
                     self.display(template); 
                 }else{
-                    self.end(
-                        {"code":404,"message":"{\"message\":\"Not Found\",\"documentation_url\":\"http://developer.github.com/v3\"}"}
-                    );
+                    if(post){
+                        self.redirect('/', 302);
+                        //self.end('Not found');
+                    }else{
+                        self.end(
+                            {"code":404,"message":"{\"message\":\"Not Found\",\"documentation_url\":\"http://developer.github.com/v3\"}"}
+                        );
+                    }
                 }
             })
             .otherwise(function(err){
@@ -198,6 +203,9 @@ module.exports = Controller(function(){
                 self.end(err);
             });
             //this.end("hello, akira!");
+        },
+        testAction: function(){
+            this.end('test');
         }
     }
 });
