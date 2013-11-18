@@ -10,7 +10,7 @@
 
 The example of gitpress.json is 
 
-```
+```json
 {
     "docs"      : ["README.md", "docs"],        
 }
