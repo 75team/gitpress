@@ -16,5 +16,5 @@ The example of gitpress.json is
 }
 ```
 
-If all done & still error, please [contact us](http://gitpress.org/~README.md). 
+If all done & still has error, please [contact us](http://gitpress.org/~README.md). 
 
