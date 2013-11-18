@@ -41,7 +41,7 @@ The default value of this property is `["README.md", "README.markdown", "README"
 
 ### *template*
 
-`template` property set the layout of the website, now the only valid value of this property is `"default"`.
+`template` property set the layout of the website, now the only valid value of this property is `"default" and "slate"`.
 
 Want to use this property to change your website layout? See: [Setting Website's Layout](~docs/2-website-layouts.md)
 

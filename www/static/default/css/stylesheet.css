@@ -522,6 +522,7 @@ ul.friends li{
   border: 1px solid #e3e3e3;
   box-shadow: 3px 3px 5px #f0f0f0 inset;
   font-size: 16px;
+  vertical-align: middle;
 }
 
 #gotop { position:fixed!important;position:absolute;right:20px;bottom:20px;display:none; }

@@ -25,7 +25,8 @@ module.exports = Controller(function(){
             
             var press = new GitPress(host);
 
-            var post = this.param('p'), page = this.param('pn') || 1;
+            var post = this.param('p'), page = this.param('pn') || 1,
+                tpl = this.param('tpl');
             
             press.init().then(function(res){
                 return press.getContents(post, page);
@@ -33,7 +34,7 @@ module.exports = Controller(function(){
             .then(function(res){
 
                 var contents = [];
-                var template = press.options.template,
+                var template = tpl || press.options.template,
                     perpage = press.options.perpage;
                 
                 var hasNext = res.length > perpage;
@@ -51,7 +52,6 @@ module.exports = Controller(function(){
                     }
                 }
                 if(contents.length){
-
                     self.assign('contents', contents);
                     self.assign('host', host);
                     self.assign('title', press.options.title);
@@ -139,7 +139,8 @@ module.exports = Controller(function(){
 
         },
         searchAction: function(){
-            var q = this.param('q');
+            var q = this.param('q'),
+                tpl = this.param('tpl');
 
             var host = this.http.hostname;
 
@@ -157,7 +158,7 @@ module.exports = Controller(function(){
             .then(function(res){
 
                 var contents = [];
-                var template = press.options.template,
+                var template = tpl || press.options.template,
                     perpage = press.options.perpage;
                 
                 var hasNext = res.length > perpage;
