@@ -31,12 +31,28 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h2>
+        <article>
+          <h1>
           <a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a><%= description %>
-          </h2>
+          </h1>
 
-          <h3>
-          <a name="did-the-project--user--repo--exists" class="anchor" href="#did-the-project--user--repo--exists"><span class="octicon octicon-link"></span></a>Did the project <code>http://github.com/<%= user %>/<%= repo %></code> exists?</h3>            
+          <h3><a name="did-the-project--user--repo--exists" class="anchor" href="#did-the-project--user--repo--exists"><span class="octicon octicon-link"></span></a>Did the project <a href="http://github.com/<%= user %>/<%= repo %>">http://github.com/<%= user %>/<%= repo %></a> exists?</h3>
+
+          <h3><strong>If it did not exists,</strong> create it —— <a href="https://github.com/new">https://github.com/new</a></h3>
+
+          <h3><strong>If it did exists</strong> make sure you have <a href="https://github.com/<%= user %>/<%= repo %>/blob/master/README.md">README.md</a></h3>
+
+          <h3><strong>Then make sure you have </strong> <a href="https://github.com/<%= user %>/<%= repo %>/blob/master/gitpress.json">gitpress.json</a></h3>
+
+          <h3>The example of gitpress.json is </h3>
+
+<div class="highlight highlight-json"><pre><span class="p">{</span>
+    <span class="nt">"docs"</span>      <span class="p">:</span> <span class="p">[</span><span class="s2">"README.md"</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">],</span>        
+<span class="p">}</span>
+</pre></div>
+
+          <h3>If all done &amp; still error, please <a href="http://gitpress.org/%7EREADME.md">contact us</a>.</h3>
+          </article>            
         </section>
     
         <aside id="sidebar">
