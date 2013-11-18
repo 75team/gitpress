@@ -52,22 +52,24 @@ module.exports = Controller(function(){
                     }
                 }
                 if(contents.length){
-                    self.assign('contents', contents);
-                    self.assign('host', host);
-                    self.assign('title', press.options.title);
-                    self.assign('user', press.options.user);
-                    self.assign('repo', press.options.repo);
-                    self.assign('comment', press.options.comment == 'on' && post);
-                    self.assign('pageID', press.options.user + '/' 
-                        + press.options.repo + '/' + (post || 'index'));
-                    self.assign('template', template);
-                    self.assign('page', page);
-                    self.assign('hasNext', hasNext);
 
-                    self.assign('q', '');
-
-                    self.assign('friends', press.options.friends);
-                    self.assign('description', press.options.description);
+                    var data = {
+                        contents: contents,
+                        host: host,
+                        title: press.options.title,
+                        user: press.options.user,
+                        repo: press.options.repo,
+                        comment: press.options.comment == 'on' && post,
+                        pageID: press.options.user + '/' 
+                            + press.options.repo + '/' + (post || 'index'),
+                        template: template,
+                        page: page,
+                        hasNext: hasNext,
+                        q: '',
+                        friends: press.options.friends,
+                        description: press.options.description
+                    };
+                    self.assign(data);
 
                     self.display(template); 
                 }else{
@@ -82,7 +84,24 @@ module.exports = Controller(function(){
                 }
             })
             .otherwise(function(err){
-                self.end(err);
+                if(/gitpress.org$/.test(host)){
+                    var repo = host.replace(".gitpress.org", '').split('.');
+                    if(repo.length == 1){
+                        repo.unshift('blog');
+                    }
+                    var data = {
+                        user:repo[1], 
+                        repo:repo[0],
+                        template: "default",
+                        title: "Opps!",
+                        description: "Something was wrong ;-("
+                    };
+                    self.assign(data);
+
+                    self.display('error');                    
+                }else{
+                    self.end(err);
+                }
             });
         },
         rssAction: function(){
@@ -181,21 +200,23 @@ module.exports = Controller(function(){
                     shint = 
                         '<div class="search-result-hint">Search result for : ' + q + '</div>';
                 }
-            
+                
+                var data = {
+                    contents: contents,
+                    host: host,
+                    title: press.options.title,
+                    user: press.options.user,
+                    repo: press.options.repo,
+                    comment: false,
+                    template: template,
+                    page: page,
+                    hasNext: hasNext,
+                    q: q,
+                    friends: press.options.friends,
+                    description: press.options.description
+                };
                     
-                self.assign('contents', contents);
-                self.assign('host', host);
-                self.assign('title', press.options.title);
-                self.assign('user', press.options.user);
-                self.assign('repo', press.options.repo);
-                self.assign('comment', false);
-                self.assign('template', template);
-                self.assign('page', page);
-                self.assign('hasNext', hasNext);
-
-                self.assign('q', q);
-                self.assign('friends', press.options.friends);
-                self.assign('description', press.options.description);
+                self.assign(data);
 
                 self.display(template); 
 
@@ -204,6 +225,20 @@ module.exports = Controller(function(){
                 self.end(err);
             });
             //this.end("hello, akira!");
+        },
+        reposAction: function(){
+            var host = this.http.hostname;
+
+            var self = this;
+            var GitPress = think_require("GitpressModel");
+            
+            var press = new GitPress(host);  
+
+            press.init().then(function(res){
+                self.end(res);
+            }).otherwise(function(err){
+                self.end(err);
+            });
         },
         testAction: function(){
             this.end('test');
