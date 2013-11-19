@@ -241,7 +241,8 @@ module.exports = Controller(function(){
             });
         },
         testAction: function(){
-            this.end('test');
+            this.assign('filename', __dirname + '/index_test.html');
+            this.display('test');
         }
     }
 });

@@ -441,13 +441,3 @@ Small Device Styles
   box-shadow: 3px 3px 5px #f0f0f0 inset;
   font-size: 16px;
 }
-
-ul.friends li{
-  line-height: 1.5em;
-  display: inline-block;
-  margin-right: 1em;
-} 
-
-#nav-below .nav-previous {float: left;}
-#nav-below .nav-next {float: right;}
-#nav-below {margin-bottom: 20px;} 

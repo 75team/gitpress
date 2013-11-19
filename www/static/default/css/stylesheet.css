@@ -480,10 +480,6 @@ footer a:hover {
   aside#sidebar .iconfont{
     display: none;
   }
-  ul.friends li{
-    display: inline-block;
-    margin-right: 1em;
-  }
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
@@ -503,13 +499,6 @@ footer a:hover {
 
 .iconfont {font-size: 42px; margin-bottom: 20px;}
 .iconfont a{font-size: 36px;font-family: 'Architects Daughter';color:#666;}
-
-#nav-below .nav-previous {float: left;}
-#nav-below .nav-next {float: right;}
-
-ul.friends li{
-  line-height: 1.5em;
-} 
 
 #searchform #searchsubmit {display: none;}
 #searchform #q {

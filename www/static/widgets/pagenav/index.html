@@ -1,0 +1,16 @@
+
+<!-- widget start -->
+<style type="text/css">
+.widget#nav-below .nav-previous {float: left;}
+.widget#nav-below .nav-next {float: right;}
+.widget#nav-below {padding: 5px 0 5px 0;} 
+</style>
+<nav role="navigation" id="nav-below" class="widget site-navigation paging-navigation clearfix">
+  <% if(page > 1) { %>
+    <div class="nav-previous"><a href="?pn=<%= page-1 %>"><span class="meta-nav">«</span> Newer Entries </a></div>
+  <% } %>
+  <% if(hasNext) { %>
+    <div class="nav-next"><a href="?pn=<%= page-0+1 %>"> Older Entries <span class="meta-nav">»</span></a></div>
+  <% } %>
+</nav>
+<!-- widget end -->
