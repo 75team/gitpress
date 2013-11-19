@@ -2,3 +2,5 @@
 Thumbs.db
 sftp-config.json
 node_modules
+qiniu-conf.json
+output
