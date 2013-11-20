@@ -93,7 +93,7 @@ module.exports = Controller(function(){
                         user:repo[1], 
                         repo:repo[0],
                         template: "default",
-                        title: "Opps!",
+                        title: "Oops!",
                         description: "Something was wrong ;-("
                     };
                     self.assign(data);
@@ -241,8 +241,7 @@ module.exports = Controller(function(){
             });
         },
         testAction: function(){
-            this.assign('filename', __dirname + '/index_test.html');
-            this.display('test');
+            this.end('this is a test');
         }
     }
 });
