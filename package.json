@@ -17,6 +17,9 @@
     "node-mixin": "~1.0.0",
     "github": "~0.1.12"
   },
+  "devDependencies":{
+    "uglifyjs": "~0"
+  },
   "keywords": [
     "gitpress",
     "blog",

@@ -304,7 +304,7 @@ dl dt {
 
 footer {
   background: transparent url('../img/hr.png') 0 0 no-repeat;
-  margin-top: 40px;
+  margin-top: 20px;
   padding-top: 20px;
   padding-bottom: 30px;
   font-size: 13px;
@@ -418,4 +418,15 @@ ul.friends li{
   vertical-align: top;
   background-color: transparent!important;
   background-color: #e7e7e7 url(../img/body-bg.png) 0 0 repeat;
+}
+
+article {
+  padding-bottom: 10px;
+}
+
+article > h1, article > h2, article > h3 {
+  white-space: nowrap;
+  word-break:keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;  
 }

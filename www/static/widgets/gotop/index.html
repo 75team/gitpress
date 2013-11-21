@@ -1,0 +1,49 @@
+
+<!--widget start-->
+<style type="text/css">
+a.widget#gotop { 
+	position:fixed!important;
+	position:relative;
+	float:right;
+	right:26px;
+	bottom:26px;
+	display:none; 
+}
+</style>
+
+<a id="gotop" href="#" class="widget"><i class="fa fa-arrow-up"></i>Top</a>
+
+<script>
+$(window).load(function(){
+
+	$.easing.easeOut = function ( p ) {
+		return p * (2 - p);
+	}
+
+	$('#gotop').click(function(){
+		$('body,html').animate({scrollTop:0},{
+			duration: 1000,
+			easing: "easeOut"
+		});
+		return false;		
+	});
+
+  	function checkTop(){
+		var visible = $('#gotop').is(':visible');
+
+		if($(window).width() > 767 && $(document).scrollTop() > 200){
+			if(!visible){
+				$('#gotop').fadeIn();
+			}
+		}else if(visible){
+			$('#gotop').fadeOut();
+		}
+	}
+
+	$(window).on('scroll', checkTop);
+
+	$(window).resize(checkTop);
+
+});
+</script>
+<!--widget end-->

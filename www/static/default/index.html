@@ -6,7 +6,7 @@
     <meta name="description" content="<%= description %>"/>
     <meta name="keywords" content="github gitpress wordpress blog" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" type="text/css" href="http://gitpress.u.qiniudn.com/<%= template %>/css/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="http://gitpress.u.qiniudn.com/<%= template %>/css/stylesheet.css?v=2" media="screen" />
     <link rel="stylesheet" type="text/css" href="http://gitpress.u.qiniudn.com/<%= template %>/css/print.css" media="print" />
     <link href="http://gitpress.u.qiniudn.com/css/fontawesome.css?v=4.0.3" rel="stylesheet">
 
@@ -44,6 +44,7 @@
         <% }else{ %> 
           <%include widgets/pagenav/index.html %>
         <% } %>
+        <%include widgets/gotop/index.html %>
         </section>
     
         <aside id="sidebar">
@@ -68,32 +69,8 @@
 
           <p>Powered by <a href="https://github.com/welefen/thinkjs">thinkjs</a> &amp; <a href="http://developer.github.com/v3/">Github api </a>.</p> 
 
-          <a id="gotop" href="#" onclick="utils.goTop();return false;"><i class="fa fa-arrow-up"></i>Top</a>
-
-          <script>
-            $(window).load(function(){
-              function checkTop(){
-                var visible = $('#gotop').is(':visible');
-                
-                if($(window).width() > 767 && $(document).scrollTop() > 200){
-                  if(!visible){
-                    $('#gotop').fadeIn();
-                  }
-                }else if(visible){
-                  $('#gotop').fadeOut();
-                }
-              }
-
-              $(window).on('scroll', checkTop);
-
-              $(window).resize(checkTop);
-
-            });
-          </script>
-
         </aside>
       </div>
     </div>
-    <script type="text/javascript" src="http://gitpress.u.qiniudn.com/<%= template %>/js/main.js"></script>
   </body>
 </html>
