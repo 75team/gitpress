@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
@@ -36,7 +36,7 @@
     "type": "git",
     "url": "https://github.com/akira-cn/gitpress"
   },
-  "main": "index.js",
+  "main": "www/index.js",
   "bin": {
     "gitpress" : "./bin/gitpress"
   },
