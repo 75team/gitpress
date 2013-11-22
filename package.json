@@ -13,9 +13,10 @@
     }
   ],
   "dependencies": {
-    "thinkjs": "~0.1.4",
+    "thinkjs": "~0.1.5",
     "node-mixin": "~1.0.0",
-    "github": "~0.1.12"
+    "github": "~0.1.12",
+    "http-proxy": "~0.10.3"
   },
   "devDependencies":{
     "uglifyjs": "~0"

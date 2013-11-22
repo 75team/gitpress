@@ -23,7 +23,13 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(host);
+            var press;
+            if(this.header('proxy-x-gitpress')){
+                var repos = this.header('proxy-x-gitpress').split(',');
+                press = new GitPress(repos[0], repos[1]);
+            }else{
+                press = new GitPress(host);
+            }
 
             var post = this.param('p'), page = this.param('pn') || 1,
                 tpl = this.param('tpl');
@@ -54,8 +60,9 @@ module.exports = Controller(function(){
                 if(contents.length){
 
                     var data = {
+                        resource_url: 'http://s.androidzh.com',
                         contents: contents,
-                        host: host,
+                        host: self.http.host,
                         title: press.options.title,
                         user: press.options.user,
                         repo: press.options.repo,
@@ -110,7 +117,13 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(host);
+            var press;
+            if(this.header('proxy-x-gitpress')){
+                var repos = this.header('proxy-x-gitpress').split(',');
+                press = new GitPress(repos[0], repos[1]);
+            }else{
+                press = new GitPress(host);
+            }
 
             var RSS = require('rss');
 
@@ -166,7 +179,13 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(host);
+            var press;
+            if(this.header('proxy-x-gitpress')){
+                var repos = this.header('proxy-x-gitpress').split(',');
+                press = new GitPress(repos[0], repos[1]);
+            }else{
+                press = new GitPress(host);
+            }
 
             var post = null, page = this.param('pn') || 1;
 
@@ -202,8 +221,9 @@ module.exports = Controller(function(){
                 }
                 
                 var data = {
+                    resource_url: 'http://s.androidzh.com',
                     contents: contents,
-                    host: host,
+                    host: self.http.host,
                     title: press.options.title,
                     user: press.options.user,
                     repo: press.options.repo,
@@ -232,7 +252,13 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press = new GitPress(host);  
+            var press;
+            if(this.header('proxy-x-gitpress')){
+                var repos = this.header('proxy-x-gitpress').split(',');
+                press = new GitPress(repos[0], repos[1]);
+            }else{
+                press = new GitPress(host);
+            }
 
             press.init().then(function(res){
                 self.end(res);
