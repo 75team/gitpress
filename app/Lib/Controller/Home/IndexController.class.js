@@ -58,6 +58,10 @@ module.exports = Controller(function(){
                     }
                 }
                 if(contents.length){
+                    var comment = press.options.comment;
+                    if(press.options.comment === 'on'){
+                        press.options.comment = {type:'disqus', short_name:'gitpress'};
+                    }
 
                     var data = {
                         resource_url: 'http://s.androidzh.com',
@@ -66,7 +70,7 @@ module.exports = Controller(function(){
                         title: press.options.title,
                         user: press.options.user,
                         repo: press.options.repo,
-                        comment: press.options.comment == 'on' && post,
+                        comment: post && press.options.comment,
                         pageID: press.options.user + '/' 
                             + press.options.repo + '/' + (post || 'index'),
                         template: template,
