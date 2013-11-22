@@ -58,5 +58,14 @@ httpProxy.createServer(function (req, res, proxy) {
   });
 }).listen(port);
 
-console.log('Proxy run at ' + port 
-	+ '\nThe repo is:' + repos.join('/'));
+
+console.log('Compiling documents ...');
+
+http.get("http://127.0.0.1:"+port, function(res) {
+  	console.log('All compiled! OK~')
+	console.log('Proxy run at ' + port 
+		+ '\nThe repo is:' + repos.join('/'));
+}).on('error', function(e) {
+	console.log("Got error: " + e.message);
+});
+
