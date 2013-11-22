@@ -26,11 +26,15 @@ visit your site with `http://<repo>.<user>.gitpress.org`
 
 -------------
 
+<br/>
+
 ### Setup on your webserver
+
+If you want to run gitpress server on your own webserver, it is still so easy: 
 
 ```bash
 sudo npm install gitpress
 sudo gitpress your_username/your_repo
 ```
 
-visit: http://localhost:8080
+Then visit: http://localhost:8080
