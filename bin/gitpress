@@ -31,10 +31,16 @@ templates.forEach(function(tpl){
 
 	var targetFile = target_root + 'index_' + tpl + '.html';
 	if(!fs.existsSync(targetFile)){
-		console.log('link targetFile:' + targetFile);
+		console.log('link tplFile:' + targetFile);
 		fs.symlinkSync(templateFile, targetFile);
 	}
 });
+
+var widgets = target_root + 'widgets';
+if(!fs.existsSync(widgets)){
+	console.log('link widgetFile:' + widgets);
+	fs.symlinkSync(template_root + 'widgets', widgets);	
+}
 
 require('../www/index.js');
 
@@ -50,7 +56,7 @@ httpProxy.createServer(function (req, res, proxy) {
     host: 'localhost',
     port: 8360
   });
-}).listen(8000);
+}).listen(port);
 
 console.log('Proxy run at ' + port 
 	+ '\nThe repo is:' + repos.join('/'));

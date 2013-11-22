@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
