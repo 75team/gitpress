@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var http = require('http'),
     httpProxy = require('http-proxy');
 var repos;
@@ -21,9 +22,9 @@ var port = process.argv[3] || 8000;
 var fs = require('fs');
 
 //加载模板
-var template_root = __dirname + '/www/static/';
+var template_root = __dirname + '/../www/static/';
 var templates = ['default', 'slate', 'tactile'];
-var target_root = __dirname + '/app/Tpl/Home/';
+var target_root = __dirname + '/../app/Tpl/Home/';
 
 templates.forEach(function(tpl){
 	var templateFile = template_root + tpl + '/index.html';
@@ -35,7 +36,7 @@ templates.forEach(function(tpl){
 	}
 });
 
-require('./www/index.js');
+require('../www/index.js');
 
 //
 // Create your proxy server

@@ -99,6 +99,10 @@ GitPress.prototype.init = function(){
 	var self = this,
 		cache = self.options.cache;
 
+	if(!fs.existsSync(__dirname + '/cache')){
+		fs.mkdirSync(__dirname + '/cache');
+	}
+
 	if(!fs.existsSync(cache)){
 		fs.mkdirSync(cache);
 	}
