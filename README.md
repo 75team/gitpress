@@ -25,3 +25,16 @@ visit your site with `http://<repo>.<user>.gitpress.org`
 **When you push your files to your project, the new updates will effected in 2 or 3 minutes.**
 
 -------------
+
+<br/>
+
+### Setup on your webserver
+
+If you want to run gitpress server on your own webserver, it is still so easy: 
+
+```bash
+sudo npm install gitpress
+sudo gitpress your_username/your_repo
+```
+
+Then visit: http://localhost:8080
