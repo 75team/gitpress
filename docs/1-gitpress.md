@@ -17,7 +17,7 @@
 	},
 	"title"  : "Akira's Blog",
 	"description" : "My Blog Description...",
-	"comment"  : "on",
+	"comment"  : {"type":"disqus", "short_name":"gitpress"},
 	"friends"  : [
 		{
 		  "name"  : "github",
@@ -71,7 +71,7 @@ The default domain of your gitpress site is `http://repo.user.gitpress.org`. You
 
 ### *comment*
 
-If `comment` property set to `on`, someone can place a comment on your document. 
+You can add comments in your blog or docs. Now it supports [disqus](http://disqus.com) and [duoshuo](http://dev.duoshuo.com/).
 
 ### *friends*
 
