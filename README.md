@@ -38,3 +38,7 @@ sudo gitpress your_username/your_repo
 ```
 
 Then visit: http://localhost:8080
+
+### License
+
+MIT
