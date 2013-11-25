@@ -39,7 +39,7 @@ module.exports = Controller(function(){
             })
             .then(function(res){
 
-                var contents = [];
+                var contents = [], files = [];
                 var template = tpl || press.options.template,
                     perpage = press.options.perpage;
                 
@@ -56,6 +56,7 @@ module.exports = Controller(function(){
                     }else{
                         contents.push(res[i].html);
                     }
+                    files.push(res[i].path);
                 }
                 if(contents.length){
                     var comment = press.options.comment;
@@ -66,6 +67,7 @@ module.exports = Controller(function(){
                     var data = {
                         resource_url: 'http://s.androidzh.com',
                         contents: contents,
+                        files: files,
                         host: self.http.host,
                         title: press.options.title,
                         user: press.options.user,
@@ -75,6 +77,7 @@ module.exports = Controller(function(){
                             + press.options.repo + '/' + (post || 'index'),
                         template: template,
                         page: page,
+                        perpage: perpage,
                         hasNext: hasNext,
                         q: '',
                         friends: press.options.friends,
@@ -167,6 +170,7 @@ module.exports = Controller(function(){
 
                 // cache the xml to send to clients
                 var xml = feed.xml();
+                self.header('content-type', 'text/xml;charset=utf-8')
                 self.end(xml);
 
             }).otherwise(function(err){
@@ -199,7 +203,7 @@ module.exports = Controller(function(){
             })
             .then(function(res){
 
-                var contents = [];
+                var contents = [], files = [];
                 var template = tpl || press.options.template,
                     perpage = press.options.perpage;
                 
@@ -216,6 +220,7 @@ module.exports = Controller(function(){
                     }else{
                         contents.push(res[i].html);
                     }
+                    files.push(res[i].path);
                 }
                 if(!contents.length){
                     shint = '<div class="search-result-hint">Sorry, I found nothing :(</div>';
@@ -227,6 +232,7 @@ module.exports = Controller(function(){
                 var data = {
                     resource_url: 'http://s.androidzh.com',
                     contents: contents,
+                    files: files,
                     host: self.http.host,
                     title: press.options.title,
                     user: press.options.user,
@@ -234,6 +240,7 @@ module.exports = Controller(function(){
                     comment: false,
                     template: template,
                     page: page,
+                    perpage: perpage,
                     hasNext: hasNext,
                     q: q,
                     friends: press.options.friends,

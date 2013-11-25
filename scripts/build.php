@@ -6,7 +6,7 @@
 		"remove_empty_selector" => true,  //取出空selector
 		"override_same_property" => true,  //覆盖相同的属性
 		"short_value" => true,  //简化value值
-		"merge_property" => true,  //合并属性
+		"merge_property" => false,  //合并属性
 		"sort_property" => true,  //对属性进行排序
 		"sort_selector" => true,  //对selector进行排序
 		"merge_selector" => true,  //合并selector
@@ -24,9 +24,10 @@
 	///build...css...
 
 	$templates = array(
-		"default" 	=> $root."/default/css",
-		"slate" 	=> $root."/slate/css",
+		//"default" 	=> $root."/default/css",
+		//"slate" 	=> $root."/slate/css",
 		"tactile" 	=> $root."/tactile/css",
+		"phase"		=> $root."/phase/css",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -83,14 +84,16 @@
 		}
 	}
 
+
 	///...
 
 	///copy images...
 
 	$templates = array(
-		"default" 	=> $root."/default/img",
-		"slate" 	=> $root."/slate/img",
-		"tactile" 	=> $root."/tactile/img",
+		//"default" 	=> $root."/default/img",
+		//"slate" 	=> $root."/slate/img",
+		//"tactile" 	=> $root."/tactile/img",
+		"phase"		=> $root."/phase/img",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -117,9 +120,10 @@
 	///...
 
 	$templates = array(
-		"default" 	=> $root."/default/js",
-		"slate" 	=> $root."/slate/js",
-		"tactile" 	=> $root."/tactile/js",
+		//"default" 	=> $root."/default/js",
+		//"slate" 	=> $root."/slate/js",
+		//"tactile" 	=> $root."/tactile/js",
+		"phase"		=> $root."/phase/js",
 	);
 
 	foreach ($templates as $k => &$v){
