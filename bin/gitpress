@@ -42,7 +42,9 @@ if(!fs.existsSync(widgets)){
 	fs.symlinkSync(template_root + 'widgets', widgets);	
 }
 
-require('../www/index.js');
+//require('../www/index.js');
+global.APP_PATH = __dirname + "/../app";
+module.exports = require("thinkjs"); 
 
 //
 // Create your proxy server

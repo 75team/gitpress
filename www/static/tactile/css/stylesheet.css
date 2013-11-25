@@ -417,7 +417,7 @@ ul.friends li{
   font-size: 16px;
   vertical-align: top;
   background-color: transparent!important;
-  background-color: #e7e7e7 url(../img/body-bg.png) 0 0 repeat;
+  background: #e7e7e7 url(../img/body-bg.png) 0 0 repeat;
 }
 
 article {
