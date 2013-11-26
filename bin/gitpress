@@ -39,7 +39,27 @@ if(tpl && templates.indexOf(tpl) == -1){
 	}
 	var templateFile = template_root + tpl + '/index.html';
 	if(!fs.existsSync(templateFile)){
-		fs.writeFileSync(templateFile, '<%= JSON.stringify({a:1}) %>');
+		var content = '<%= JSON.stringify({'+
+				'host: host,'+
+				'user: user,'+
+			    'repo: repo,'+
+				'title: title,'+
+				'description: description,'+	
+				'resource_url: resource_url,'+
+				'avatar: avatar,'+    
+			    'template: template,'+
+			    'q: q,'+
+				'page: page,'+
+			    'perpage: perpage,'+
+			    'hasNext: hasNext,'+
+			    'comment: comment,'+
+			    'pageID: pageID,'+
+			    'friends: friends,'+
+				'files: files,'+
+			    'contents: contents'+
+			'}) %>';
+
+		fs.writeFileSync(templateFile, content);
 	}
 	templates.push(tpl);
 }
