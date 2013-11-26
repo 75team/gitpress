@@ -3,8 +3,10 @@ var http = require('http'),
     httpProxy = require('http-proxy');
 var repos;
 
+var PORT = 8361;
+
 if(!process.argv[2]){
-	console.log('node gitpress user/repo [port=8361]\n');
+	console.log('node gitpress user/repo [template]\n');
 	process.exit(0);
 }else{
 	repos = process.argv[2].split('/');
@@ -17,7 +19,7 @@ if(!process.argv[2]){
 	global.gitpressRepo = repos[1];
 }
 
-var port = process.argv[3] || 8361;
+var tpl = process.argv[3];
 
 var fs = require('fs');
 
@@ -25,6 +27,24 @@ var fs = require('fs');
 var template_root = __dirname + '/../www/static/';
 var templates = ['default', 'slate', 'tactile', 'phase', 'pithiness'];
 var target_root = __dirname + '/../app/Tpl/Home/';
+
+if(tpl && templates.indexOf(tpl) == -1){
+	var templateDir = template_root + tpl;
+	if(!fs.existsSync(templateDir)){
+		console.log('creating template: ' + tpl);
+		fs.mkdirSync(templateDir);
+		fs.mkdirSync(templateDir + '/css');
+		fs.mkdirSync(templateDir + '/js');
+		fs.mkdirSync(templateDir + '/img');
+	}
+	var templateFile = template_root + tpl + '/index.html';
+	if(!fs.existsSync(templateFile)){
+		fs.writeFileSync(templateFile, '<%= JSON.stringify({a:1}) %>');
+	}
+	templates.push(tpl);
+}
+
+//process.exit(0);
 
 templates.forEach(function(tpl){
 	var templateFile = template_root + tpl + '/index.html';
@@ -55,18 +75,19 @@ httpProxy.createServer(function (req, res, proxy) {
   // Put your custom server logic here
   //
   req.headers['proxy-x-gitpress'] = repos.toString();
+  if(tpl) req.headers['proxy-x-gitpress-template'] = tpl;
   proxy.proxyRequest(req, res, {
     host: 'localhost',
     port: 8360
   });
-}).listen(port);
+}).listen(PORT);
 
 
 console.log('Compiling documents ...');
 
-http.get("http://127.0.0.1:"+port, function(res) {
+http.get("http://127.0.0.1:"+PORT, function(res) {
   	console.log('All compiled! OK~')
-	console.log('Proxy run at ' + port 
+	console.log('Proxy run at ' + PORT 
 		+ '\nThe repo is:' + repos.join('/'));
 }).on('error', function(e) {
 	console.log("Got error: " + e.message);

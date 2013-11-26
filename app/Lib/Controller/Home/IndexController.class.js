@@ -34,6 +34,10 @@ module.exports = Controller(function(){
             var post = this.param('p'), page = this.param('pn') || 1,
                 tpl = this.param('tpl');
             
+            if(!tpl && this.header('proxy-x-gitpress-template')){
+                tpl = this.header('proxy-x-gitpress-template');
+            }
+
             press.init().then(function(res){
                 return press.getContents(post, page);
             })
