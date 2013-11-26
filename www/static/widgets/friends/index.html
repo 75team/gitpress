@@ -1,11 +1,10 @@
 <!--widget start-->
 <style type="text/css">
 footer ul.widget.friends li{
-  line-height: 1.5em;
   display: inline-block;
   margin-right: 1em;
 } 
-aside ul.widget.friends li{
+ul.widget.friends li{
 	line-height: 1.5em;
 }	
 @media only screen and (max-width: 767px) {
@@ -16,7 +15,7 @@ aside ul.widget.friends li{
 }
 </style>
 <% if(friends){ %>
-<ul class="friends widget">
+<ul class="widget friends">
   <% for(var i = 0; i < friends.length; i++){ %>
      <li><a href="<%= friends[i].url %>" title="<%= friends[i].title %>" target="_blank"><%= friends[i].name %></a></li>
   <% } %>

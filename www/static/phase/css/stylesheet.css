@@ -866,3 +866,7 @@ pre .clojure .title {
 pre .deletion {
   color: #dc322f;
 }
+.search-result-hint {
+  color: #fff;
+  line-height: 2.5em;
+}

@@ -47,8 +47,11 @@ function parseRepo(host){
 
 		if(fs.existsSync(domainFile)){
 			var map = fs.readFileSync(domainFile, {encoding: 'utf-8'});
-			map = JSON.parse(map);
-			
+			try{
+				map = JSON.parse(map);
+			}catch(ex){
+				map = {};
+			}
 			//console.log(map, host, map[host]);
 
 			if(map[host]){
@@ -112,7 +115,6 @@ GitPress.prototype.init = function(){
 	if(fs.existsSync(reposFile)){
 		var reposLog = fs.readFileSync(reposFile, {encoding: 'utf-8'}); 
 		reposLog = JSON.parse(reposLog);
-
 		if(Date.now() - reposLog.timeStamp < 144000){
 			self.options.update = reposLog.data.updated_at;
 		}
@@ -130,8 +132,9 @@ GitPress.prototype.init = function(){
 				
 				self.options.description = res.description;
 				self.options.title = res.name;
+				self.options.avatar = res.owner.avatar_url;
 
-				fs.writeFile(reposFile, 
+				fs.writeFileSync(reposFile, 
 					JSON.stringify({data:res, timeStamp: Date.now()}), 
 					{mode: 438});	
 
@@ -143,7 +146,8 @@ GitPress.prototype.init = function(){
 	}else{
 		self.options.description = reposLog.data.description;
 		self.options.title = reposLog.data.name;
-		
+		self.options.avatar = reposLog.data.owner.avatar_url;
+
 		deferred.resolve();
 	}
 
@@ -164,7 +168,11 @@ GitPress.prototype.init = function(){
 
 				if(fs.existsSync(domainFile)){
 					map = fs.readFileSync(domainFile, {encoding: 'utf-8'});
-					map = JSON.parse(map);
+					try{
+						map = JSON.parse(map);
+					}catch(ex){
+						map = {};
+					}
 				}
 
 				//domain-alias [domain1, ~domain2]
@@ -188,7 +196,7 @@ GitPress.prototype.init = function(){
 					}
 				}
 
-				fs.writeFile(domainFile, 
+				fs.writeFileSync(domainFile, 
 					JSON.stringify(map), 
 					{mode: 438});
 			}
@@ -267,7 +275,7 @@ GitPress.prototype.getContent = function(path, sha) {
 						.then(function(html){
 							res.html = html;
 
-							fs.writeFile(cacheFile, 
+							fs.writeFileSync(cacheFile, 
 								JSON.stringify({data:res, update: self.options.update}), 
 								{mode: 438});
 
@@ -283,7 +291,7 @@ GitPress.prototype.getContent = function(path, sha) {
 						.then(function(html){
 							res.html = html;
 			
-							fs.writeFile(cacheFile, 
+							fs.writeFileSync(cacheFile, 
 								JSON.stringify({data:res, update: self.options.update}), 
 								{mode: 438});
 
@@ -294,14 +302,14 @@ GitPress.prototype.getContent = function(path, sha) {
 
 					res.title = res.name;
 
-					fs.writeFile(cacheFile, 
+					fs.writeFileSync(cacheFile, 
 						JSON.stringify({data:res, update: self.options.update}), 
 						{mode: 438});
 
 					deferred.resolve(res);
 				}	
 			}else{
-				fs.writeFile(cacheFile, 
+				fs.writeFileSync(cacheFile, 
 					JSON.stringify({data:res, update: self.options.update}), 
 					{mode: 438});
 

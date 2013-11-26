@@ -72,6 +72,7 @@ module.exports = Controller(function(){
                         title: press.options.title,
                         user: press.options.user,
                         repo: press.options.repo,
+                        avatar: press.options.avatar,
                         comment: post && press.options.comment,
                         pageID: press.options.user + '/' 
                             + press.options.repo + '/' + (post || 'index'),
@@ -98,6 +99,7 @@ module.exports = Controller(function(){
                 }
             })
             .otherwise(function(err){
+                console.log(err);
                 if(/gitpress.org$/.test(host)){
                     var repo = host.replace(".gitpress.org", '').split('.');
                     if(repo.length == 1){
@@ -237,6 +239,7 @@ module.exports = Controller(function(){
                     title: press.options.title,
                     user: press.options.user,
                     repo: press.options.repo,
+                    avatar: press.options.avatar,
                     comment: false,
                     template: template,
                     page: page,

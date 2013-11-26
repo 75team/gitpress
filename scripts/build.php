@@ -26,8 +26,9 @@
 	$templates = array(
 		//"default" 	=> $root."/default/css",
 		//"slate" 	=> $root."/slate/css",
-		"tactile" 	=> $root."/tactile/css",
-		"phase"		=> $root."/phase/css",
+		//"tactile" 	=> $root."/tactile/css",
+		//"phase"		=> $root."/phase/css",
+		"pithiness"		=> $root."/pithiness/css",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -93,7 +94,8 @@
 		//"default" 	=> $root."/default/img",
 		//"slate" 	=> $root."/slate/img",
 		//"tactile" 	=> $root."/tactile/img",
-		"phase"		=> $root."/phase/img",
+		//"phase"		=> $root."/phase/img",
+		"pithiness"		=> $root."/pithiness/img",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -123,7 +125,8 @@
 		//"default" 	=> $root."/default/js",
 		//"slate" 	=> $root."/slate/js",
 		//"tactile" 	=> $root."/tactile/js",
-		"phase"		=> $root."/phase/js",
+		//"phase"		=> $root."/phase/js",
+		"pithiness"		=> $root."/pithiness/js",
 	);
 
 	foreach ($templates as $k => &$v){
