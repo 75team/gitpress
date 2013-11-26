@@ -4,7 +4,7 @@ var http = require('http'),
 var repos;
 
 if(!process.argv[2]){
-	console.log('node gitpress user/repo [port=8000]\n');
+	console.log('node gitpress user/repo [port=8361]\n');
 	process.exit(0);
 }else{
 	repos = process.argv[2].split('/');
@@ -17,13 +17,13 @@ if(!process.argv[2]){
 	global.gitpressRepo = repos[1];
 }
 
-var port = process.argv[3] || 8000;
+var port = process.argv[3] || 8361;
 
 var fs = require('fs');
 
 //加载模板
 var template_root = __dirname + '/../www/static/';
-var templates = ['default', 'slate', 'tactile'];
+var templates = ['default', 'slate', 'tactile', 'phase', 'pithiness'];
 var target_root = __dirname + '/../app/Tpl/Home/';
 
 templates.forEach(function(tpl){
@@ -43,6 +43,7 @@ if(!fs.existsSync(widgets)){
 }
 
 //require('../www/index.js');
+//global.DEBUG = true;
 global.APP_PATH = __dirname + "/../app";
 module.exports = require("thinkjs"); 
 

@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
@@ -20,7 +20,7 @@
     "http-proxy": "~0.10.3"
   },
   "devDependencies":{
-    "uglifyjs": "~0"
+    "uglifyjs": ">=2.0"
   },
   "keywords": [
     "gitpress",
