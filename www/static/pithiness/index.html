@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="<%= resource_url %>/<%= template %>/css/stylesheet.css" media="screen" type="text/css">
   <script src="<%= resource_url %>/<%= template %>/js/modernizr.js"></script>
   <link href="<%= resource_url %>/css/fontawesome.css?v=4.0.3" rel="stylesheet">
+  <script src="<%= resource_url %>/js/jquery.js"></script>
 </head>
 
 
@@ -46,6 +47,19 @@
 <nav class="other">
   <%include widgets/friends/index.html %>
 </nav>
+
+<style type="text/css">
+a.widget#gotop { 
+  float:left!important;
+  left:16px!important;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  -ms-transition: none;
+  transition: none;
+}
+</style>
+<%include widgets/gotop/index.html %>
 
 </div></header>
     <section id="content" class="blog">  
@@ -92,7 +106,6 @@
     </div>
     <div class="clearfix"></div></footer>
   </div>
-  <script src="<%= resource_url %>/js/jquery.js"></script>
   <script src="<%= resource_url %>/<%= template %>/js/main.js"></script>
 </body>
 </html>
