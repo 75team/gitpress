@@ -23,10 +23,11 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press;
+            var press, runServer = false;
             if(this.header('proxy-x-gitpress')){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
+                runServer = true;
             }else{
                 press = new GitPress(host);
             }
@@ -69,7 +70,7 @@ module.exports = Controller(function(){
                     }
 
                     var data = {
-                        resource_url: 'http://s.androidzh.com',
+                        resource_url: runServer?'':'http://s.androidzh.com',
                         contents: contents,
                         files: files,
                         host: self.http.host,
@@ -236,7 +237,7 @@ module.exports = Controller(function(){
                 }
                 
                 var data = {
-                    resource_url: 'http://s.androidzh.com',
+                    resource_url: runServer?'':'http://s.androidzh.com',
                     contents: contents,
                     files: files,
                     host: self.http.host,

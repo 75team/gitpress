@@ -91,15 +91,49 @@ module.exports = require("thinkjs");
 // Create your proxy server
 //
 httpProxy.createServer(function (req, res, proxy) {
-  //
-  // Put your custom server logic here
-  //
-  req.headers['proxy-x-gitpress'] = repos.toString();
-  if(tpl) req.headers['proxy-x-gitpress-template'] = tpl;
-  proxy.proxyRequest(req, res, {
-    host: 'localhost',
-    port: 8360
-  });
+	//
+	// Put your custom server logic here
+	//
+  	var url = require('url').parse(req.url)
+  
+  	if(/\.(js|css|gif|jpg|jpeg|png|bmp|swf|ico|woff|map)$/.test(url.pathname)){
+	  	var mime = require('mime');
+	  	var type = mime.lookup(url.pathname);
+	  	var file, devFile, content;
+
+	  	if(url.pathname == '/favicon.ico'){
+	  		file = __dirname + '/../www/favicon.ico';
+	  	}else{
+	  		file = __dirname + '/../www/output' + url.pathname;
+	  	}
+
+	  	devFile = __dirname + '/../www/static' + url.pathname;
+	  	
+	  	//从 output 文件夹取资源文件，如果没有的话，从 static 下取
+	  	if(fs.existsSync(file)){
+	  		content = fs.readFileSync(file);	
+  		}else if(fs.existsSync(devFile)){
+	  		content = fs.readFileSync(devFile);
+  		}
+
+  		if(content){
+ 		  	res.writeHead(200, {
+			  'Content-Length': content.length,
+			  'Content-Type': type 
+			});
+			res.end(content);  		
+  		}else{
+  			res.writeHead(404, {'Content-Type': 'text/html'});
+  			res.end("{status: 404}");
+  		}
+  	}else{
+		req.headers['proxy-x-gitpress'] = repos.toString();
+		if(tpl) req.headers['proxy-x-gitpress-template'] = tpl;
+		proxy.proxyRequest(req, res, {
+			host: 'localhost',
+			port: 8360
+		});
+	}
 }).listen(PORT);
 
 

@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
@@ -14,10 +14,11 @@
   ],
   "dependencies": {
     "when": "~2.5.1",
-    "thinkjs": "~0.1.7",
+    "thinkjs": "~0.1.10",
     "node-mixin": "~1.0.0",
     "github": "~0.1.12",
-    "http-proxy": "~0.10.3"
+    "http-proxy": "~0.10.3",
+    "mime": "~1.2.11"
   },
   "devDependencies":{
     "uglifyjs": ">=2.0"
