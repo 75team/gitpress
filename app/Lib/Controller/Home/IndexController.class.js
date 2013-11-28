@@ -194,7 +194,7 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press;
+            var press, runServer = false;
             if(this.header('proxy-x-gitpress')){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
