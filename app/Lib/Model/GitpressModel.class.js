@@ -228,7 +228,9 @@ GitPress.prototype.init = function(){
 				(function(cate, path){
 					promises.push(self.getContent(path).then(function(res){
 						if(res instanceof Array){
-							self.options.categoryCounts[cate] = res.length;
+							self.options.categoryCounts[cate] = res.filter(function(o){
+								return o.type === 'file';
+							}).length;
 						}else{
 							self.options.categoryCounts[cate] = 1;
 						}

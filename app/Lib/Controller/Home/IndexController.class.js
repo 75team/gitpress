@@ -18,7 +18,7 @@ function QUERY_URL(pathname, param){
     return function queryURL(newParam){
         mixin(param, newParam, true);
 
-        return querystring.stringify(param);
+        return '/' + pathname + '?' + querystring.stringify(param);
     }
 }
 
@@ -52,15 +52,12 @@ module.exports = Controller(function(){
                 tpl = this.header('proxy-x-gitpress-template');
             }
 
-            var category = null;
+            var category = this.param('c');
 
             press.init().then(function(res){
                 //console.log(press.options);
-                var categories = press.options.categories;
-                for(var cate in categories){
-                    if(categories[cate] === post){
-                        category = cate;
-                    }
+                if(category){
+                    return press.getContents(press.options.categories[category], page);
                 }
                 return press.getContents(post, page);
             })
@@ -73,7 +70,7 @@ module.exports = Controller(function(){
                 res = res.slice(0, perpage);
 
                 for(var i = 0; i < res.length; i++){
-                    if(res.length > 1){
+                    if(!post){
                         var parts = res[i].html.split(/\n\n\n\n/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
@@ -243,7 +240,7 @@ module.exports = Controller(function(){
                 res = res.slice(0, perpage);
 
                 for(var i = 0; i < res.length; i++){
-                    if(res.length > 1){
+                    if(!post){
                         var parts = res[i].html.split(/\n\n\n\n/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';

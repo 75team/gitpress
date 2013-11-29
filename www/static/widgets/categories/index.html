@@ -17,6 +17,6 @@ ul.widget.categories li{
 <ul class="widget categories">
 	<li><a href="/">All Categories</a></li>
 <% for(var i in categories){ %> 
-  	<li><a href="/~<%= categories[i] %>"><%= i %> (<%= categoryCounts?categoryCounts[i]:'?' %>)</a></li>
+  	<li><a href="/?c=<%= i %>"><%= i %> (<%= categoryCounts?categoryCounts[i]:'?' %>)</a></li>
 <% } %>
 </ul>
