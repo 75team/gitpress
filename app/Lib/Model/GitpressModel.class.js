@@ -14,6 +14,11 @@ var github = new GitHubApi({
 var mixin = require('node-mixin');
 
 var fs = require('fs');
+var crypto = require('crypto');
+
+function md5 (text) {
+	return crypto.createHash('md5').update(text).digest('hex');
+};
 
 var client_id = '5283e94694c3f4d149a7', 
 	client_secret = '4e32758f32e1e5b23ee4672ddf1861f51729c11f';
@@ -228,8 +233,8 @@ GitPress.prototype.getContent = function(path, sha) {
 
 	//use filecache
 
-	var cacheFile = this.options.cache + '/' + encodeURIComponent(path);
-	//console.log(path);
+	var cacheFile = this.options.cache + '/' + md5(path);
+
 	try{
 		if(fs.existsSync(cacheFile)){
 			var content = fs.readFileSync(cacheFile, {encoding: 'utf-8'});
@@ -242,7 +247,9 @@ GitPress.prototype.getContent = function(path, sha) {
 				return deferred.promise;
 			}
 		}	
-	}catch(ex){}
+	}catch(ex){
+		console.log(ex);
+	}
 
 	github.repos.getContent({
 		user: this.options.user,
@@ -273,6 +280,7 @@ GitPress.prototype.getContent = function(path, sha) {
 					
 					self.markdown(content)
 						.then(function(html){
+							
 							res.html = html;
 
 							fs.writeFileSync(cacheFile, 
@@ -280,6 +288,9 @@ GitPress.prototype.getContent = function(path, sha) {
 								{mode: 438});
 
 							deferred.resolve(res);
+					}).otherwise(function(err){
+						//console.log(err);
+						deferred.reject(err);
 					});
 
 				}else if(type == 'code'){

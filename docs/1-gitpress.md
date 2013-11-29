@@ -39,6 +39,14 @@
 
 The default value of this property is `["README.md", "README.markdown", "README"]`
 
+### categoring
+
+You can set the `docs` property in json format:
+
+```json
+"docs": {"category1": "path1", "category2": "path2", /*...*/}
+```
+
 ### *template*
 
 `template` property set the layout of the website, now the valid values of this property are `"default", "slate", "phase", "pithiness" or "tactile"`.

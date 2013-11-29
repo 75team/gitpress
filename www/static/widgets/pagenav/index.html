@@ -7,10 +7,10 @@
 </style>
 <nav role="navigation" id="nav-below" class="widget site-navigation paging-navigation clearfix">
   <% if(page > 1) { %>
-    <div class="nav-previous"><a href="?pn=<%= page-1 %>"><span class="meta-nav">«</span> Newer Entries </a></div>
+    <div class="nav-previous"><a href="?<%= queryURL({pn:page-1}) %>"><span class="meta-nav">«</span> Newer Entries </a></div>
   <% } %>
   <% if(hasNext) { %>
-    <div class="nav-next"><a href="?pn=<%= page-0+1 %>"> Older Entries <span class="meta-nav">»</span></a></div>
+    <div class="nav-next"><a href="?<%= queryURL({pn:page-0+1}) %>"> Older Entries <span class="meta-nav">»</span></a></div>
   <% } %>
 </nav>
 <!-- widget end -->

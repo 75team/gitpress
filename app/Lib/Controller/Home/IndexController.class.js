@@ -11,6 +11,29 @@ var github = new GitHubApi({
     timeout: 5000
 });
 
+var querystring = require('querystring');
+var mixin = require('node-mixin');
+
+function QUERY_URL(pathname, param){
+    return function queryURL(newParam){
+        mixin(param, newParam, true);
+
+        return querystring.stringify(param);
+    }
+}
+
+function buildCate(options){
+    var docs = options.docs;
+    if(!(docs instanceof Array)){
+        options.categories = docs;
+        options.docs = Object.keys(docs).map(function(k){return docs[k]});
+    }else{
+        options.categories = {};
+        docs.map(function(k){options.categories[k] = k});
+    }
+    return options;    
+}
+
 module.exports = Controller(function(){
     return {
         /*init: function(){
@@ -23,6 +46,8 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
+            //console.log(this.http);
+
             var press, runServer = false;
             if(this.header('proxy-x-gitpress')){
                 var repos = this.header('proxy-x-gitpress').split(',');
@@ -33,17 +58,23 @@ module.exports = Controller(function(){
             }
 
             var post = this.param('p'), page = this.param('pn') || 1,
-                tpl = this.param('tpl');
-            
+                tpl = this.param('tpl'), category = this.param('c');
+
             if(!tpl && this.header('proxy-x-gitpress-template')){
                 tpl = this.header('proxy-x-gitpress-template');
             }
 
+            var categories = [];
+
             press.init().then(function(res){
+                buildCate(press.options);
+                //console.log(press.options);
+                if(category){
+                    return press.getContents(press.options.categories[category], page);
+                }
                 return press.getContents(post, page);
             })
             .then(function(res){
-
                 var contents = [], files = [];
                 var template = tpl || press.options.template,
                     perpage = press.options.perpage;
@@ -84,7 +115,10 @@ module.exports = Controller(function(){
                         template: template,
                         page: page,
                         perpage: perpage,
+                        queryURL: QUERY_URL(self.http.pathname, self.http.get),
                         hasNext: hasNext,
+                        categories: Object.keys(press.options.categories),
+                        category: category,
                         q: '',
                         friends: press.options.friends,
                         description: press.options.description
@@ -143,6 +177,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(post);
+                buildCate(press.options);
                 return press.getContents();
             })
             .then(function(res){
@@ -157,7 +192,7 @@ module.exports = Controller(function(){
                     feed_url: host + '/index/rss',
                     site_url: host,
                     author: options.user,
-                    categories: options.docs,
+                    categories: Object.keys(press.options.categories),
                     pubDate: options.update
                 });
 
@@ -206,6 +241,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(post);
+                buildCate(press.options);
                 return press.findContents(post, q, page);
             })
             .then(function(res){
@@ -249,7 +285,10 @@ module.exports = Controller(function(){
                     template: template,
                     page: page,
                     perpage: perpage,
+                    queryURL: QUERY_URL(self.http.pathname, self.http.get),
                     hasNext: hasNext,
+                    categories: Object.keys(press.options.categories),
+                    category: null,
                     q: q,
                     friends: press.options.friends,
                     description: press.options.description

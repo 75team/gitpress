@@ -80,10 +80,10 @@
         <% }else{ %> 
           <nav id="pagenavi">
               <% if(page > 1) { %>
-                <a href="?pn=<%= page-1 %>" class="alignleft prev">Prev</a>
+                <a href="?pn=<%= queryURL({pn:page-1}) %>" class="alignleft prev">Prev</a>
               <% } %>
               <% if(hasNext) { %>
-                <a href="?pn=<%= page-0+1 %>" class="alignright next">Next</a>
+                <a href="?pn=<%= queryURL({pn:page-0+1}) %>" class="alignright next">Next</a>
               <% } %>
               <div class="clearfix"></div>
           </nav>       

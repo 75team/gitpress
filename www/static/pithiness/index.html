@@ -7,7 +7,7 @@
   <title><%= title %></title>
   <meta name="author" content="<%= user %>">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="<%= resource_url %>/<%= template %>/css/stylesheet.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="<%= resource_url %>/<%= template %>/css/stylesheet.css?v=2" media="screen" type="text/css">
   <script src="<%= resource_url %>/<%= template %>/js/modernizr.js"></script>
   <link href="<%= resource_url %>/css/fontawesome.css?v=4.0.3" rel="stylesheet">
   <script src="<%= resource_url %>/js/jquery.js"></script>
@@ -25,7 +25,7 @@
     <i class="fa fa-rss-square"></i></a>
   </h1>
 </div>
-<a href="#" id="toggle">About</a>
+<a href="#" id="toggle">Info</a>
 <div class="about" style="display: none">
   <p><%= description %></p>
 </div>
@@ -39,9 +39,13 @@
 <div class="widget">
   
   <nav class="search">
-  <form action="index/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
+  <form action="/index/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search" value="<%= q %>">
   </form>
+</nav>
+
+<nav class="menu-navigation-container">
+  <%include widgets/categories/index.html %>
 </nav>
 
 <nav class="other">
@@ -62,8 +66,10 @@ a.widget#gotop {
 <%include widgets/gotop/index.html %>
 
 </div></header>
-    <section id="content" class="blog">  
-    <h2 class="archive-title">Archives</h2>
+    <section id="content" class="blog"> 
+    <% if(category){ %> 
+    <h2 class="archive-title"><%= category %></h2>
+    <% } %>
     <% if(q){ %> 
      <%- shint %>
      <hr/>
@@ -88,10 +94,10 @@ a.widget#gotop {
     <% }else{ %> 
       <nav id="pagination">
           <% if(page > 1) { %>
-            <a href="?pn=<%= page-1 %>" class="alignleft prev">Prev</a>
+            <a href="?<%= queryURL({pn:page-1}) %>" class="alignleft prev">Prev</a>
           <% } %>
           <% if(hasNext) { %>
-            <a href="?pn=<%= page-0+1 %>" class="alignright next">Next</a>
+            <a href="?<%= queryURL({pn:page-0+1}) %>" class="alignright next">Next</a>
           <% } %>
           <div class="clearfix"></div>
       </nav>      

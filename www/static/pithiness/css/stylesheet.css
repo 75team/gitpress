@@ -444,7 +444,7 @@ article .entry blockquote {
   font-family: "Georgia", serif;
   font-size: 1.2em;
   padding: 0 30px 15px;
-  text-align: center;
+  /*text-align: center;*/
 }
 article .entry blockquote footer {
   border-top: none;

@@ -1,0 +1,22 @@
+<style type="text/css">
+footer ul.widget.categories li{
+  display: inline-block;
+  margin-right: 1em;
+} 
+ul.widget.categories li{
+	line-height: 1.5em;
+}	
+@media only screen and (max-width: 767px) {
+  aside ul.widget.categories li{
+    display: inline-block;
+    margin-right: 1em;
+  }
+}
+</style>
+
+<ul class="widget categories">
+	<li><a href="/">All Categories</a></li>
+<% for(var i = 0; i < categories.length; i++){ %> 
+  	<li><a href="/?c=<%= categories[i] %>"><%= categories[i] %></a></li>
+<% } %>
+</ul>
