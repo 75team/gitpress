@@ -22,18 +22,6 @@ function QUERY_URL(pathname, param){
     }
 }
 
-function buildCate(options){
-    var docs = options.docs;
-    if(!(docs instanceof Array)){
-        options.categories = docs;
-        options.docs = Object.keys(docs).map(function(k){return docs[k]});
-    }else{
-        options.categories = {};
-        docs.map(function(k){options.categories[k] = k});
-    }
-    return options;    
-}
-
 module.exports = Controller(function(){
     return {
         /*init: function(){
@@ -58,19 +46,21 @@ module.exports = Controller(function(){
             }
 
             var post = this.param('p'), page = this.param('pn') || 1,
-                tpl = this.param('tpl'), category = this.param('c');
+                tpl = this.param('tpl');
 
             if(!tpl && this.header('proxy-x-gitpress-template')){
                 tpl = this.header('proxy-x-gitpress-template');
             }
 
-            var categories = [];
+            var category = null;
 
             press.init().then(function(res){
-                buildCate(press.options);
                 //console.log(press.options);
-                if(category){
-                    return press.getContents(press.options.categories[category], page);
+                var categories = press.options.categories;
+                for(var cate in categories){
+                    if(categories[cate] === post){
+                        category = cate;
+                    }
                 }
                 return press.getContents(post, page);
             })
@@ -83,7 +73,7 @@ module.exports = Controller(function(){
                 res = res.slice(0, perpage);
 
                 for(var i = 0; i < res.length; i++){
-                    if(!post){
+                    if(res.length > 1){
                         var parts = res[i].html.split(/\n\n\n\n/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
@@ -117,7 +107,8 @@ module.exports = Controller(function(){
                         perpage: perpage,
                         queryURL: QUERY_URL(self.http.pathname, self.http.get),
                         hasNext: hasNext,
-                        categories: Object.keys(press.options.categories),
+                        categories: press.options.categories,
+                        categoryCounts: press.options.categoryCounts,
                         category: category,
                         q: '',
                         friends: press.options.friends,
@@ -177,7 +168,6 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(post);
-                buildCate(press.options);
                 return press.getContents();
             })
             .then(function(res){
@@ -241,7 +231,6 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(post);
-                buildCate(press.options);
                 return press.findContents(post, q, page);
             })
             .then(function(res){
@@ -254,7 +243,7 @@ module.exports = Controller(function(){
                 res = res.slice(0, perpage);
 
                 for(var i = 0; i < res.length; i++){
-                    if(!post){
+                    if(res.length > 1){
                         var parts = res[i].html.split(/\n\n\n\n/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
@@ -287,7 +276,8 @@ module.exports = Controller(function(){
                     perpage: perpage,
                     queryURL: QUERY_URL(self.http.pathname, self.http.get),
                     hasNext: hasNext,
-                    categories: Object.keys(press.options.categories),
+                    categories: press.options.categories,
+                    categoryCounts: press.options.categoryCounts,
                     category: null,
                     q: q,
                     friends: press.options.friends,

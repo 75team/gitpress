@@ -70,6 +70,18 @@ function parseRepo(host){
 	}
 }
 
+function buildCate(options){
+    var docs = options.docs;
+    if(!(docs instanceof Array)){
+        options.categories = docs;
+        options.docs = Object.keys(docs).map(function(k){return docs[k]});
+    }else{
+        options.categories = {};
+        docs.map(function(k){options.categories[k] = k});
+    }
+    return options;    
+}
+
 function GitPress(user, repo){
 	process.umask(0);
 
@@ -206,8 +218,30 @@ GitPress.prototype.init = function(){
 					{mode: 438});
 			}
 			//console.log(self.options);
+			buildCate(self.options);
 
-			return self.options;	
+			var promises = [];
+			var categories = self.options.categories;
+			self.options.categoryCounts = {};
+
+			for(var cate in categories){
+				(function(cate, path){
+					promises.push(self.getContent(path).then(function(res){
+						if(res instanceof Array){
+							self.options.categoryCounts[cate] = res.length;
+						}else{
+							self.options.categoryCounts[cate] = 1;
+						}
+					}));
+				})(cate, categories[cate]);
+			}
+
+			when.all(promises).then(function(){
+				//console.log(self.options);
+				return self.options;
+			});
+
+			//return self.options;	
 		});
 	});
 }
@@ -353,6 +387,7 @@ GitPress.prototype.getList = function(docs){
 				var doc = res.value;
 
 				if(doc instanceof Array){
+					//console.log(doc);
 					for(var j = 0; j < doc.length; j++){
 						var blob = doc[j];
 
@@ -457,7 +492,6 @@ GitPress.prototype.getContents = function(docs, page){
 	if(docs && !(docs instanceof Array)){
 		docs = [docs];
 	}
-
 	page = page || 1;
 
 	var perpage = this.options.perpage,

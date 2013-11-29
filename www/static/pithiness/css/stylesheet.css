@@ -726,7 +726,8 @@ figure.highlight .code {
   width: 100% !important;
   background: #272822 !important;
 }
-pre code {
+
+/*pre code {
   display: block !important;
   padding: 0.5em !important;
   background: #272822 !important;
@@ -734,7 +735,8 @@ pre code {
 }
 pre code .constant {
   color: #66d9ef !important;
-}
+}*/
+
 pre .tag,
 pre .tag .title,
 pre .keyword,
