@@ -140,6 +140,7 @@ GitPress.prototype.init = function(){
 
 	var deferred = when.defer();
 	if(!self.options.update){
+		console.log('get ' + self.options.user + ':' + self.options.repo + ' - ' + new Date());
 		github.repos.get({
 			user: self.options.user,
 			repo: self.options.repo 
@@ -266,7 +267,6 @@ GitPress.prototype.markdown = function(text) {
 GitPress.prototype.getContent = function(path, sha) {
 	var deferred = when.defer(),
 		self = this;
-
 	//use filecache
 
 	var cacheFile = this.options.cache + '/' + (path === 'gitpress.json' ? path : md5(path));
@@ -286,6 +286,8 @@ GitPress.prototype.getContent = function(path, sha) {
 	}catch(ex){
 		console.log(ex);
 	}
+
+	console.log('get ' + path + ':' + sha + ' - ' + new Date());
 
 	github.repos.getContent({
 		user: this.options.user,

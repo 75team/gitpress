@@ -159,7 +159,7 @@ module.exports = Controller(function(){
 
                     self.display('error');                    
                 }else{
-                    self.end(err);
+                    self.end(err.msg);
                 }
             });
         },
@@ -219,7 +219,7 @@ module.exports = Controller(function(){
                 self.end(xml);
 
             }).otherwise(function(err){
-                self.end(err);
+                self.end(err.msg);
             });
 
         },
@@ -267,12 +267,6 @@ module.exports = Controller(function(){
                     }
                     files.push(res[i].path);
                 }
-                if(!contents.length){
-                    shint = '<div class="search-result-hint">Sorry, I found nothing :(</div>';
-                }else{
-                    shint = 
-                        '<div class="search-result-hint">Search result for : ' + q + '</div>';
-                }
                 
                 var data = {
                     resource_url: runServer?'':'http://s.androidzh.com',
@@ -303,7 +297,8 @@ module.exports = Controller(function(){
 
             })
             .otherwise(function(err){
-                self.end(err);
+                console.log(err);
+                self.end(err.msg);
             });
             //this.end("hello, akira!");
         },
@@ -324,7 +319,7 @@ module.exports = Controller(function(){
             press.init().then(function(res){
                 self.end(res);
             }).otherwise(function(err){
-                self.end(err);
+                self.end(err.msg);
             });
         },
         testAction: function(){
