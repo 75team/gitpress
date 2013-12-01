@@ -269,7 +269,7 @@ GitPress.prototype.getContent = function(path, sha) {
 
 	//use filecache
 
-	var cacheFile = this.options.cache + '/' + md5(path);
+	var cacheFile = this.options.cache + '/' + (path === 'gitpress.json' ? path : md5(path));
 
 	try{
 		if(fs.existsSync(cacheFile)){

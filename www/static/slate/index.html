@@ -41,8 +41,14 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <% if(q){ %> 
-         <%- shint %>
-         <hr/>
+          <div class="search-result-hint">
+          <% if(!contents.length){ %>
+              Sorry, I found nothing :(;
+          <% }else{ %>
+              Search result for : <%= q %>;
+          <% } %>
+          </div>
+          <hr/>
         <% } %>
         <% for(var i=0; i<contents.length; i++) {%>
            <article>

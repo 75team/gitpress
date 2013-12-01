@@ -29,14 +29,20 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-        <% if(q){ %> 
-         <%- shint %>
-         <hr/>
+        <% if(http.action == 'search'){ %> 
+          <div class="search-result-hint">
+          <% if(!contents.length){ %>
+              Sorry, I found nothing :(;
+          <% }else{ %>
+              Search result for : <%= q %>;
+          <% } %>
+          </div>
+          <hr/>
         <% } %>
   			<% for(var i=0; i<contents.length; i++) {%>
-           <article>
-  			     <%- contents[i] %>
-           </article>
+          <article>
+           <%- contents[i] %>
+          </article>
   			<% } %> 
   			<hr/>     
         <% if(comment){ %>

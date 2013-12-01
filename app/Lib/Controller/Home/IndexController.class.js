@@ -31,6 +31,10 @@ module.exports = Controller(function(){
             //repos.user.gitpress.org
             var host = this.http.hostname;
 
+            if(host === 'gitpress.org'){
+                this.redirect('http://www.gitpress.org');
+            }
+
             var self = this;
             var GitPress = think_require("GitpressModel");
             
@@ -57,7 +61,7 @@ module.exports = Controller(function(){
             press.init().then(function(res){
                 //console.log(press.options);
                 if(category){
-                    return press.getContents(press.options.categories[category], page);
+                    return press.getContents(press.options.categories[category] || [], page);
                 }
                 return press.getContents(post, page);
             })
@@ -82,48 +86,55 @@ module.exports = Controller(function(){
                     files.push(res[i].path);
                 }
                 if(contents.length){
-                    var comment = press.options.comment;
-                    if(press.options.comment === 'on'){
-                        press.options.comment = {type:'disqus', short_name:'gitpress'};
+                    var comment = post && press.options.comment;
+                    if(comment === 'on'){
+                        comment = {type:'disqus', short_name:'gitpress'};
                     }
 
-                    var data = {
-                        resource_url: runServer?'':'http://s.androidzh.com',
-                        contents: contents,
-                        files: files,
-                        host: self.http.host,
-                        title: press.options.title,
-                        user: press.options.user,
-                        repo: press.options.repo,
-                        avatar: press.options.avatar,
-                        comment: post && press.options.comment,
-                        pageID: press.options.user + '/' 
-                            + press.options.repo + '/' + (post || 'index'),
-                        template: template,
-                        page: page,
-                        perpage: perpage,
-                        queryURL: QUERY_URL(self.http.pathname, self.http.get),
-                        hasNext: hasNext,
-                        categories: press.options.categories,
-                        categoryCounts: press.options.categoryCounts,
-                        category: category,
-                        q: '',
-                        friends: press.options.friends,
-                        description: press.options.description
-                    };
-                    self.assign(data);
-
-                    self.display(template); 
                 }else{
-                    if(post){
-                        self.redirect('/', 302);
-                        //self.end('Not found');
-                    }else{
-                        self.end(
-                            {"code":404,"message":"{\"message\":\"Not Found\",\"documentation_url\":\"http://developer.github.com/v3\"}"}
-                        );
+                    if(category){
+                        self.redirect('/');
+                        return;
                     }
+                    
+                    self.http.res.statusCode = 404;
+                    comment = false;
+
+                    /*self.end(
+                        {"code":404,"message":"{\"message\":\"Not Found\",\"documentation_url\":\"http://developer.github.com/v3\"}"}
+                    );*/
+
+                    contents = ['<h1>Error 404 - Not Found</h1><p>There isn\'t a GitPress Page here.</p><p><a href="/">Click here</a> back to the homepage.</p>'];
+                    files = ['empty_404.html'];
                 }
+
+                var data = {
+                    resource_url: runServer?'':'http://s.androidzh.com',
+                    contents: contents,
+                    files: files,
+                    host: self.http.host,
+                    title: press.options.title,
+                    user: press.options.user,
+                    repo: press.options.repo,
+                    avatar: press.options.avatar,
+                    comment: comment,
+                    pageID: press.options.user + '/' 
+                        + press.options.repo + '/' + (post || 'index'),
+                    template: template,
+                    page: page,
+                    perpage: perpage,
+                    queryURL: QUERY_URL(self.http.pathname, self.http.get),
+                    hasNext: hasNext,
+                    categories: press.options.categories,
+                    categoryCounts: press.options.categoryCounts,
+                    category: category,
+                    q: '',
+                    friends: press.options.friends,
+                    description: press.options.description
+                };
+                self.assign(data);
+
+                self.display(template); 
             })
             .otherwise(function(err){
                 console.log(err);
@@ -132,13 +143,18 @@ module.exports = Controller(function(){
                     if(repo.length == 1){
                         repo.unshift('blog');
                     }
+                    //console.log(repo);
+
                     var data = {
                         user:repo[1], 
                         repo:repo[0],
+                        resource_url: runServer?'':'http://s.androidzh.com',
                         template: "default",
                         title: "Oops!",
                         description: "Something was wrong ;-("
                     };
+
+                    self.http.res.statusCode = 500;
                     self.assign(data);
 
                     self.display('error');                    

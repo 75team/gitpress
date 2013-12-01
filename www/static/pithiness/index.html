@@ -71,8 +71,14 @@ a.widget#gotop {
     <h2 class="archive-title"><%= category %></h2>
     <% } %>
     <% if(q){ %> 
-     <%- shint %>
-     <hr/>
+      <div class="search-result-hint">
+      <% if(!contents.length){ %>
+          Sorry, I found nothing :(;
+      <% }else{ %>
+          Search result for : <%= q %>;
+      <% } %>
+      </div>
+      <hr/>
     <% } %>
     <% for(var i=0; i<contents.length; i++) {%>
        <article class="post">
