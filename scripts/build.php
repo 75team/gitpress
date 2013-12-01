@@ -28,7 +28,8 @@
 		//"slate" 	=> $root."/slate/css",
 		//"tactile" 	=> $root."/tactile/css",
 		//"phase"		=> $root."/phase/css",
-		"pithiness"		=> $root."/pithiness/css",
+		//"pithiness"		=> $root."/pithiness/css",
+		"greyshade"  => $root."/greyshade/css",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -95,7 +96,8 @@
 		//"slate" 	=> $root."/slate/img",
 		//"tactile" 	=> $root."/tactile/img",
 		//"phase"		=> $root."/phase/img",
-		"pithiness"		=> $root."/pithiness/img",
+		//"pithiness"		=> $root."/pithiness/img",
+		"greyshade"		=> $root."/greyshade/img",
 	);
 
 	foreach ($templates as $k => &$v){
@@ -119,6 +121,34 @@
 		}
 	}
 
+
+	///copy font...
+
+	$templates = array(
+		"greyshade"		=> $root."/greyshade/font",
+	);
+
+	foreach ($templates as $k => &$v){
+		if(is_dir($v)){
+			
+			if(!file_exists($root."/../output/".$k)){
+				mkdir($root."/../output/".$k);
+			}
+
+			if(!file_exists($root."/../output/".$k."/font")){
+				mkdir($root."/../output/".$k."/font");
+			}
+
+			$dp=dir($v);
+			while($filename=$dp->read())
+				if($filename!='.'&&$filename!='..'){
+					$file = $v.'/'.$filename;
+					copy($file, $root."/../output/".$k."/font/".$filename);
+				}
+			$dp->close();
+		}
+	}
+
 	///...
 
 	$templates = array(
@@ -126,7 +156,8 @@
 		//"slate" 	=> $root."/slate/js",
 		//"tactile" 	=> $root."/tactile/js",
 		//"phase"		=> $root."/phase/js",
-		"pithiness"		=> $root."/pithiness/js",
+		//"pithiness"		=> $root."/pithiness/js",
+		"greyshade"		=> $root."/greyshade/js",
 	);
 
 	foreach ($templates as $k => &$v){

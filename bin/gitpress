@@ -25,7 +25,7 @@ var fs = require('fs');
 
 //加载模板
 var template_root = __dirname + '/../www/static/';
-var templates = ['default', 'slate', 'tactile', 'phase', 'pithiness'];
+var templates = ['default', 'slate', 'tactile', 'phase', 'pithiness', 'greyshade'];
 var target_root = __dirname + '/../app/Tpl/Home/';
 
 if(tpl && templates.indexOf(tpl) == -1){
