@@ -67,6 +67,13 @@ if(tpl && templates.indexOf(tpl) == -1){
 }
 
 //process.exit(0);
+var errorFile = template_root + 'error.html';
+
+var targetFile = target_root + 'index_error.html';
+if(!fs.existsSync(targetFile)){
+	console.log('link tplFile:' + targetFile);
+	fs.symlinkSync(errorFile, targetFile);
+}
 
 templates.forEach(function(tpl){
 	var templateFile = template_root + tpl + '/index.html';
