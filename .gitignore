@@ -5,4 +5,5 @@ node_modules
 qiniu-conf.json
 npm-debug.log
 app/Tpl/Home/*.html
+app/Tpl/Home/widgets
 cache
