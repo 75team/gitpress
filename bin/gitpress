@@ -54,8 +54,8 @@ if(tpl && templates.indexOf(tpl) == -1){
 			    'hasNext: hasNext,'+
 			    'comment: comment,'+
 			    'pageID: pageID,'+
-			    'categories: categories'+
-			    'category: category'+
+			    'categories: categories,'+
+			    'category: category,'+
 			    'friends: friends,'+
 				'files: files,'+
 			    'contents: contents'+
