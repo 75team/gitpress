@@ -15,10 +15,10 @@ ul.widget.categories li{
 </style>
 
 <ul class="widget categories">
-	<li><a href="/">All Categories</a></li>
+	<li class="category-title"><a href="/">All Categories</a></li>
 <% for(var i in categories){ %> 
 	<% if(categoryCounts && categoryCounts[i]){ %>
-  	<li><a href="/?c=<%= i %>"><%= i %> (<%= categoryCounts[i] %>)</a></li>
+  	<li class="category"><a href="/?c=<%= i %>"><%= i %> <span>(<%= categoryCounts[i] %>)</span></a></li>
   	<% } %>
 <% } %>
 </ul>

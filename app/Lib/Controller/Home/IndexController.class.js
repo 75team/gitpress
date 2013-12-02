@@ -60,6 +60,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(press.options);
+
                 if(category){
                     return press.getContents(press.options.categories[category] || [], page);
                 }
@@ -113,6 +114,7 @@ module.exports = Controller(function(){
                     contents: contents,
                     files: files,
                     host: self.http.host,
+                    domain: press.options.domain,
                     title: press.options.title,
                     user: press.options.user,
                     repo: press.options.repo,

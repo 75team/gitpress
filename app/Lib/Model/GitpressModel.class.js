@@ -94,6 +94,7 @@ function GitPress(user, repo){
 	this.options = {
 		user: user,
 		repo: repo,
+		domain: repo + '.' + user + '.gitpress.org',
 		cache: __dirname + '/cache/' + repo + '.' + user
 	}
 }
@@ -180,7 +181,12 @@ GitPress.prototype.init = function(){
 			var domains = self.options["domain-alias"] 
 				|| self.options["domain_alias"];
 
-			if(domains){
+			self.options.domain_alias = domains;
+
+			if(domains && domains.length){
+				
+				var domainRewrite = false;
+
 				var map = {};
 				var domainFile = __dirname + '/cache/domains.rec';
 
@@ -207,6 +213,8 @@ GitPress.prototype.init = function(){
 							delete map[domain];
 						}						
 					}else{
+						domainRewrite = true;
+						self.options.domain = domain;
 						if(!(domain in map)){
 							map[domain] = {user: self.options.user,
 								repo: self.options.repo};
