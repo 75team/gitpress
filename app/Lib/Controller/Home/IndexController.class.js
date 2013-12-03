@@ -30,11 +30,6 @@ module.exports = Controller(function(){
         indexAction: function(){
             //repos.user.gitpress.org
             var host = this.http.hostname;
-
-            if(host === 'gitpress.org'){
-                this.redirect('http://www.gitpress.org');
-            }
-
             var self = this;
             var GitPress = think_require("GitpressModel");
             
@@ -60,6 +55,10 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(press.options);
+                if(host != press.options.domain){
+                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    return;
+                }
 
                 if(category){
                     return press.getContents(press.options.categories[category] || [], page);
@@ -67,6 +66,7 @@ module.exports = Controller(function(){
                 return press.getContents(post, page);
             })
             .then(function(res){
+                if(!res) return;
                 var contents = [], files = [];
                 var template = tpl || press.options.template,
                     perpage = press.options.perpage;
@@ -106,6 +106,11 @@ module.exports = Controller(function(){
                     );*/
 
                     contents = ['<h1>Error 404 - Not Found</h1><p>There isn\'t a GitPress Page here.</p><p><a href="/">Click here</a> back to the homepage.</p>'];
+
+                    if(!post){
+                        contents[0] = '<p>There isn\'t a valid document in this site. Please check the <a href="/~gitpress.json">gitpress.json</a> file. Current <quote>docs</quote> path is <code>'+JSON.stringify(press.options.docs)+'</code>.</p><hr/>' + contents[0];   
+                    }
+
                     files = ['empty_404.html'];
                 }
 
@@ -182,11 +187,15 @@ module.exports = Controller(function(){
             var RSS = require('rss');
 
             press.init().then(function(res){
-                //console.log(post);
+                if(host != press.options.domain){
+                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    return;
+                }
                 return press.getContents();
             })
             .then(function(res){
                 //console.log(res, press.options);
+                if(!res) return;
 
                 var options = press.options;
 
@@ -234,7 +243,7 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press, runServer = false;
+            var press, runServer = this.header('proxy-x-gitpress');
             if(this.header('proxy-x-gitpress')){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
@@ -245,10 +254,14 @@ module.exports = Controller(function(){
             var post = null, page = this.param('pn') || 1;
 
             press.init().then(function(res){
-                //console.log(post);
+                if(host != press.options.domain){
+                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    return;
+                }
                 return press.findContents(post, q, page);
             })
             .then(function(res){
+                if(!res) return;
 
                 var contents = [], files = [];
                 var template = tpl || press.options.template,
@@ -275,6 +288,7 @@ module.exports = Controller(function(){
                     contents: contents,
                     files: files,
                     host: self.http.host,
+                    domain: press.options.domain,
                     title: press.options.title,
                     user: press.options.user,
                     repo: press.options.repo,
@@ -303,29 +317,6 @@ module.exports = Controller(function(){
                 self.end(err.msg);
             });
             //this.end("hello, akira!");
-        },
-        reposAction: function(){
-            var host = this.http.hostname;
-
-            var self = this;
-            var GitPress = think_require("GitpressModel");
-            
-            var press;
-            if(this.header('proxy-x-gitpress')){
-                var repos = this.header('proxy-x-gitpress').split(',');
-                press = new GitPress(repos[0], repos[1]);
-            }else{
-                press = new GitPress(host);
-            }
-
-            press.init().then(function(res){
-                self.end(res);
-            }).otherwise(function(err){
-                self.end(err.msg);
-            });
-        },
-        testAction: function(){
-            this.end('this is a test');
         }
     }
 });

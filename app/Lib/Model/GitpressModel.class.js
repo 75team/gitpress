@@ -171,7 +171,7 @@ GitPress.prototype.init = function(){
 	}
 
 	return deferred.promise.then(function(){
-		return self.getContent('gitpress.json').then(function(res){
+		return self.getContent('gitpress.json',undefined,true).then(function(res){
 			var content = (new Function("return " + res.content))();
 			
 			//get tpl
@@ -213,8 +213,10 @@ GitPress.prototype.init = function(){
 							delete map[domain];
 						}						
 					}else{
-						domainRewrite = true;
-						self.options.domain = domain;
+						if(!domainRewrite){
+							domainRewrite = true;
+							self.options.domain = domain;
+						}
 						if(!(domain in map)){
 							map[domain] = {user: self.options.user,
 								repo: self.options.repo};
@@ -272,12 +274,12 @@ GitPress.prototype.markdown = function(text) {
 	return deferred.promise;
 }
 
-GitPress.prototype.getContent = function(path, sha) {
+GitPress.prototype.getContent = function(path, sha, not_md5) {
 	var deferred = when.defer(),
 		self = this;
 	//use filecache
 
-	var cacheFile = this.options.cache + '/' + (path === 'gitpress.json' ? path : md5(path));
+	var cacheFile = this.options.cache + '/' + (not_md5 ? path : md5(path));
 
 	try{
 		if(fs.existsSync(cacheFile)){
@@ -314,6 +316,8 @@ GitPress.prototype.getContent = function(path, sha) {
 				//res.type = type;
 				res.content = content;	
 
+				//console.log(type);
+
 				if(type == 'markdown'){
 					//console.log(content);
 
@@ -341,10 +345,11 @@ GitPress.prototype.getContent = function(path, sha) {
 
 				}else if(type == 'code'){
 					res.title = res.name;
+					var codeType = res.name.split('.').pop();
 
 					self.markdown('### [' + 
 						res.name + '](' +
-						res.url +')\n```\n' + res.content + '\n```')
+						res.url +')\n```' + codeType + '\n' + res.content + '\n```')
 						.then(function(html){
 							res.html = html;
 			
@@ -437,6 +442,7 @@ GitPress.prototype.getList = function(docs){
 function getType(types, name){
 	for(var type in types){
 		var reg = new RegExp(type);
+		console.log(reg, name);
 		if(reg.test(name)){
 			return types[type];
 		}
