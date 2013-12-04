@@ -35,11 +35,10 @@ module.exports = Controller(function(){
             
             //console.log(this.http);
 
-            var press, runServer = false;
-            if(this.header('proxy-x-gitpress')){
+            var press, runServer = !!this.header('proxy-x-gitpress');
+            if(runServer){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
-                runServer = true;
             }else{
                 press = new GitPress(host);
             }
@@ -55,7 +54,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 //console.log(press.options);
-                if(host != press.options.domain){
+                if(!runServer && host != press.options.domain){
                     self.redirect("//" + press.options.domain + self.http.req.url);
                     return;
                 }
@@ -76,7 +75,7 @@ module.exports = Controller(function(){
 
                 for(var i = 0; i < res.length; i++){
                     if(!post){
-                        var parts = res[i].html.split(/\n\n\n\n/);
+                        var parts = res[i].html.split(/\n\n\n\n|<\!--more-->|-{5,}/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }
@@ -176,8 +175,8 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press;
-            if(this.header('proxy-x-gitpress')){
+            var press, runServer = !!this.header('proxy-x-gitpress');
+            if(runServer){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
             }else{
@@ -187,7 +186,7 @@ module.exports = Controller(function(){
             var RSS = require('rss');
 
             press.init().then(function(res){
-                if(host != press.options.domain){
+                if(!runServer && host != press.options.domain){
                     self.redirect("//" + press.options.domain + self.http.req.url);
                     return;
                 }
@@ -243,8 +242,8 @@ module.exports = Controller(function(){
             var self = this;
             var GitPress = think_require("GitpressModel");
             
-            var press, runServer = this.header('proxy-x-gitpress');
-            if(this.header('proxy-x-gitpress')){
+            var press, runServer = !!this.header('proxy-x-gitpress');
+            if(runServer){
                 var repos = this.header('proxy-x-gitpress').split(',');
                 press = new GitPress(repos[0], repos[1]);
             }else{
@@ -254,7 +253,7 @@ module.exports = Controller(function(){
             var post = null, page = this.param('pn') || 1;
 
             press.init().then(function(res){
-                if(host != press.options.domain){
+                if(!runServer && host != press.options.domain){
                     self.redirect("//" + press.options.domain + self.http.req.url);
                     return;
                 }
@@ -272,7 +271,7 @@ module.exports = Controller(function(){
 
                 for(var i = 0; i < res.length; i++){
                     if(!post){
-                        var parts = res[i].html.split(/\n\n\n\n/);
+                        var parts = res[i].html.split(/\n\n\n\n|<\!--more-->|-{5,}/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }

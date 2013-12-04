@@ -25,11 +25,11 @@
 
 	$templates = array(
 		//"default" 	=> $root."/default/css",
-		//"slate" 	=> $root."/slate/css",
+		"slate" 	=> $root."/slate/css",
 		//"tactile" 	=> $root."/tactile/css",
-		//"phase"		=> $root."/phase/css",
-		"pithiness"		=> $root."/pithiness/css",
-		//"greyshade"  => $root."/greyshade/css",
+		/*"phase"		=> $root."/phase/css",
+		"pithiness"	=> $root."/pithiness/css",
+		"greyshade" => $root."/greyshade/css",*/
 	);
 
 	foreach ($templates as $k => &$v){
@@ -92,12 +92,12 @@
 	///copy images...
 
 	$templates = array(
-		//"default" 	=> $root."/default/img",
-		//"slate" 	=> $root."/slate/img",
-		//"tactile" 	=> $root."/tactile/img",
-		//"phase"		=> $root."/phase/img",
-		//"pithiness"		=> $root."/pithiness/img",
-		//"greyshade"		=> $root."/greyshade/img",
+		/*"default" 	=> $root."/default/img",
+		"slate" 	=> $root."/slate/img",
+		"tactile" 	=> $root."/tactile/img",
+		"phase"		=> $root."/phase/img",
+		"pithiness"	=> $root."/pithiness/img",
+		"greyshade"	=> $root."/greyshade/img",*/
 	);
 
 	foreach ($templates as $k => &$v){

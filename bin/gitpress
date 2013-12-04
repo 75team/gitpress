@@ -92,7 +92,7 @@ if(!fs.existsSync(widgets)){
 }
 
 //require('../www/index.js');
-//global.DEBUG = true;
+global.DEBUG = true;
 global.APP_PATH = __dirname + "/../app";
 module.exports = require("thinkjs"); 
 

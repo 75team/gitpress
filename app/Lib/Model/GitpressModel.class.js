@@ -263,13 +263,60 @@ GitPress.prototype.markdown = function(text) {
 	var deferred = when.defer(),
 		self = this;
 
-	github.markdown.render({text:text}, function(err, res){
+	var marked = require('marked'),
+		hljs = require('highlight.js');
+
+	marked.setOptions({
+		gfm: true,
+		highlight: function (code, lang, callback) {
+			if(!lang) {
+				callback(null, code);
+				return;
+			}
+
+			lang = lang.toLowerCase();
+
+			switch(lang) {
+				case 'js':
+				case 'javascript':
+					lang = 'javascript';
+					break;
+				case 'html':
+					lang = 'xml';
+					break;
+			}
+
+			//IE某些版本语法高亮会抛异常，try 下
+			try {
+				callback(null, hljs.highlight(lang, code).value);
+			} catch(e) {
+				callback(null, code);
+			}
+		},
+		tables: true,
+		breaks: false,
+		pedantic: false,
+		sanitize: false,
+		smartLists: true,
+		smartypants: false,
+		langPrefix: 'lang-'
+	});
+
+	marked(text, function (err, content){
+		if(err){
+			deferred.reject(err);
+		}else{
+			deferred.resolve(content);
+		}
+	});
+
+	/*github.markdown.render({text:text}, function(err, res){
 		if(res){
 			deferred.resolve(res.data);
 		}else{
 			deferred.reject(err);
 		}
-	});	
+	});*/	
 
 	return deferred.promise;
 }
@@ -330,7 +377,6 @@ GitPress.prototype.getContent = function(path, sha, not_md5) {
 					
 					self.markdown(content)
 						.then(function(html){
-							
 							res.html = html;
 
 							fs.writeFileSync(cacheFile, 
@@ -339,7 +385,6 @@ GitPress.prototype.getContent = function(path, sha, not_md5) {
 
 							deferred.resolve(res);
 					}).otherwise(function(err){
-						//console.log(err);
 						deferred.reject(err);
 					});
 
@@ -380,7 +425,10 @@ GitPress.prototype.getContent = function(path, sha, not_md5) {
 		}
 	});
 
-	return deferred.promise;
+	return deferred.promise.otherwise(function(err){
+		console.log('get ' + path + ' failed. ' + err + ' - ' + new Date());
+		return deferred.promise;		
+	});
 }
 
 GitPress.prototype.getList = function(docs){
@@ -418,7 +466,6 @@ GitPress.prototype.getList = function(docs){
 					ret.push(doc);
 				}
 			}
-
 		}
 
 		if(blob_promises.length){
@@ -442,7 +489,7 @@ GitPress.prototype.getList = function(docs){
 function getType(types, name){
 	for(var type in types){
 		var reg = new RegExp(type);
-		console.log(reg, name);
+		//console.log(reg, name);
 		if(reg.test(name)){
 			return types[type];
 		}
