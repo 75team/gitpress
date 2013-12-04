@@ -55,7 +55,7 @@ module.exports = Controller(function(){
             press.init().then(function(res){
                 //console.log(press.options);
                 if(!runServer && host != press.options.domain){
-                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    self.redirect("//" + press.options.domain + self.http.req.url, 301);
                     return;
                 }
 
@@ -187,7 +187,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 if(!runServer && host != press.options.domain){
-                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    self.redirect("//" + press.options.domain + self.http.req.url, 301);
                     return;
                 }
                 return press.getContents();
@@ -254,7 +254,7 @@ module.exports = Controller(function(){
 
             press.init().then(function(res){
                 if(!runServer && host != press.options.domain){
-                    self.redirect("//" + press.options.domain + self.http.req.url);
+                    self.redirect("//" + press.options.domain + self.http.req.url, 301);
                     return;
                 }
                 return press.findContents(post, q, page);
