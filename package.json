@@ -20,7 +20,7 @@
     "http-proxy": "~0.10.3",
     "mime": "~1.2.11",
     "rss": "~0.2.1",
-    "marked": "https://github.com/akira-cn/marked/tarball/master",
+    "marked": "https://github.com/akira-cn/marked/tarball/gitpress",
     "highlight.js": "~7.5.0"
   },
   "devDependencies":{
