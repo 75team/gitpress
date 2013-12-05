@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
@@ -20,7 +20,7 @@
     "http-proxy": "~0.10.3",
     "mime": "~1.2.11",
     "rss": "~0.2.1",
-    "marked": "~0.2.10",
+    "marked": "https://github.com/akira-cn/marked/tarball/master",
     "highlight.js": "~7.5.0"
   },
   "devDependencies":{
