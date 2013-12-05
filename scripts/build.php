@@ -24,8 +24,8 @@
 	///build...css...
 
 	$templates = array(
-		//"default" 	=> $root."/default/css",
-		"slate" 	=> $root."/slate/css",
+		"default" 	=> $root."/default/css",
+		//"slate" 	=> $root."/slate/css",
 		//"tactile" 	=> $root."/tactile/css",
 		/*"phase"		=> $root."/phase/css",
 		"pithiness"	=> $root."/pithiness/css",

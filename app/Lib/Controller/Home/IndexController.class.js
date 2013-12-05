@@ -75,7 +75,7 @@ module.exports = Controller(function(){
 
                 for(var i = 0; i < res.length; i++){
                     if(!post){
-                        var parts = res[i].html.split(/\n\n\n\n|<\!--more-->|-{5,}/);
+                        var parts = res[i].html.split(/^\n|<\!--more-->|<hr\/?>/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }
@@ -271,7 +271,7 @@ module.exports = Controller(function(){
 
                 for(var i = 0; i < res.length; i++){
                     if(!post){
-                        var parts = res[i].html.split(/\n\n\n\n|<\!--more-->|-{5,}/);
+                        var parts = res[i].html.split(/^\n|<\!--more-->|<hr\/?>/);
                         if(parts.length > 1){
                             parts[0] += '<div class="readmore"><a href="/~' + res[i].path + '">more...</a></div>';
                         }
