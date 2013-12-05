@@ -371,11 +371,11 @@ article h1 {
 }
 article h2 {
   margin-bottom: 0.875em;
-  font-size: 1.125em;
+  font-size: 1.25em;
 }
 article h3 {
   margin-bottom: 0.875em;
-  font-size: 1em;
+  font-size: 1.125em;
 }
 article h4,
 article h5,
@@ -447,7 +447,6 @@ article .entry ol,
 article .entry dl,
 article .entry table,
 article .entry iframe,
-article .entry h3,
 article .entry h4,
 article .entry h5,
 article .entry h6,
@@ -502,7 +501,11 @@ article .entry h2 {
   padding-bottom: 10px;
   margin-top: 20px;
 }
-article .entry h3,
+article .entry h3{
+  font-weight: bold;
+  margin-top: 15px;
+  line-height: 1.5em;
+} 
 article .entry h4,
 article .entry h5,
 article .entry h6 {

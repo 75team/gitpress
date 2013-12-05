@@ -24,12 +24,12 @@
 	///build...css...
 
 	$templates = array(
-		"default" 	=> $root."/default/css",
+		//"default" 	=> $root."/default/css",
 		//"slate" 	=> $root."/slate/css",
 		//"tactile" 	=> $root."/tactile/css",
-		/*"phase"		=> $root."/phase/css",
+		//"phase"		=> $root."/phase/css",
 		"pithiness"	=> $root."/pithiness/css",
-		"greyshade" => $root."/greyshade/css",*/
+		//"greyshade" => $root."/greyshade/css",
 	);
 
 	foreach ($templates as $k => &$v){
