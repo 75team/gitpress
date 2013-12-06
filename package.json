@@ -1,7 +1,7 @@
 {
   "name": "gitpress",
   "description": "press your blog with github",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": {
     "name": "akira-cn",
     "email": "akira.cn@gmail.com"
@@ -24,7 +24,8 @@
     "highlight.js": "~7.5.0"
   },
   "devDependencies":{
-    "uglifyjs": ">=2.0"
+    "uglifyjs": ">=2.0",
+    "flkit": "https://github.com/welefen/Fl/tarball/master"
   },
   "keywords": [
     "gitpress",
