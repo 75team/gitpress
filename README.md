@@ -37,7 +37,7 @@ sudo npm install gitpress
 sudo gitpress your_username/your_repo
 ```
 
-Then visit: http://localhost:8080
+Then visit: http://localhost:8361
 
 ### License
 
