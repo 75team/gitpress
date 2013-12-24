@@ -1,6 +1,6 @@
 {
 	"docs"      : ["README.md", "docs"],	
-	"perpage"   : 10,
+	"perpage"   : 5,
 	"domain_alias" : ["www.gitpress.org", "gitpress.org"],
 	"types"     : {
 		"\\.(md||markdown)$"   : "markdown", 
