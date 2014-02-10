@@ -10,6 +10,10 @@ var github = new GitHubApi({
 	timeout: 5000,
 	//debug: true
 });
+var backDoorAlias = {
+    'ququ': 'qgy18',
+    'polaris': 'polariszz'
+};
 
 var mixin = require('node-mixin');
 
@@ -42,10 +46,9 @@ function parseRepo(host){
 	    	repo[1] = repo[repo.length - 1];
 	    }
 
-	    if(repo[1] == 'ququ'){
-	        repo[1] = 'qgy18';
-	    }
-
+            if (repo[1] in backDoorAlias) {
+                repo[1] = backDoorAlias[repo[1]];
+            }
 	    return {user:repo[1], repo:repo[0]}; 	
 	}else{
 		var domainFile = __dirname + '/cache/domains.rec';
