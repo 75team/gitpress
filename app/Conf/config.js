@@ -7,5 +7,6 @@ module.exports = {
     tpl_engine_config: { //模版引擎需要的配置
 
     },
-    session_auto_start: false
+    session_auto_start: false,
+    empty_controller_event: "emptyController",
 };

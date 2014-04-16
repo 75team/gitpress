@@ -5,3 +5,4 @@ global.RESOURCE_PATH = __dirname;
 global.ROOT_PATH = __dirname;
 global.APP_DEBUG = true;
 require('thinkjs');
+//console.log(require.cache)

@@ -95,7 +95,20 @@ if(!fs.existsSync(widgets)){
 //require('../www/index.js');
 global.DEBUG = true;
 global.APP_PATH = __dirname + "/../app";
-module.exports = require("thinkjs"); 
+
+//module.exports = require("thinkjs"); 
+
+var exec = require('child_process').exec,
+    child;
+
+child = exec('node ../www/index.js',
+  function (error, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (error !== null) {
+      console.log('exec error: ' + error);
+    }
+});
 
 //
 // Create your proxy server
@@ -105,7 +118,7 @@ httpProxy.createServer(function (req, res, proxy) {
 	// Put your custom server logic here
 	//
   	var url = require('url').parse(req.url)
-  
+  	
   	if(/\.(js|css|gif|jpg|jpeg|png|bmp|swf|ico|woff|map)$/.test(url.pathname)){
 	  	var mime = require('mime');
 	  	var type = mime.lookup(url.pathname);

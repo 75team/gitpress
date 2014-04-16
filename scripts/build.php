@@ -15,7 +15,7 @@
 
 	Fl::loadClass("Fl_Css_Compress"); //通过Fl:loadClass方法加载Fl_Css_Compress类
 
-	$root = "../www/static";
+	$root = "../www/resource/module";
 	
 	if(!file_exists($root."/../output")){
 		mkdir($root."/../output");
