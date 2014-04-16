@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "when": "~2.5.1",
-    "thinkjs": "~0.1.10",
+    "thinkjs": ">=0.1.10",
     "node-mixin": "~1.0.0",
     "github": "~0.1.12",
     "http-proxy": "~0.10.3",

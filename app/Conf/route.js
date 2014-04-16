@@ -1,3 +1,3 @@
-module.exports = {
-	"/^\~(.+)$/" : "index/index?p=:1"
-};
+module.exports = [
+	[/^\~(.+)$/, "index/index?p=:1"]
+];

@@ -6,5 +6,6 @@ module.exports = {
     tpl_engine_type: "ejs", //模版引擎名称
     tpl_engine_config: { //模版引擎需要的配置
 
-    }
+    },
+    session_auto_start: false
 };

@@ -24,9 +24,9 @@ var tpl = process.argv[3];
 var fs = require('fs');
 
 //加载模板
-var template_root = __dirname + '/../www/static/';
+var template_root = __dirname + '/../www/resource/module/';
 var templates = ['default', 'slate', 'tactile', 'phase', 'pithiness', 'greyshade'];
-var target_root = __dirname + '/../app/Tpl/Home/';
+var target_root = __dirname + '/../App/View/Home/';
 
 if(tpl && templates.indexOf(tpl) == -1){
 	var templateDir = template_root + tpl;
@@ -70,6 +70,7 @@ if(tpl && templates.indexOf(tpl) == -1){
 var errorFile = template_root + 'error.html';
 
 var targetFile = target_root + 'index_error.html';
+
 if(!fs.existsSync(targetFile)){
 	console.log('link tplFile:' + targetFile);
 	fs.symlinkSync(errorFile, targetFile);
@@ -116,9 +117,9 @@ httpProxy.createServer(function (req, res, proxy) {
 	  		file = __dirname + '/../www/output' + url.pathname;
 	  	}
 
-	  	devFile = __dirname + '/../www/static' + url.pathname;
+	  	devFile = __dirname + '/../www/resource/module' + url.pathname;
 	  	
-	  	//从 output 文件夹取资源文件，如果没有的话，从 static 下取
+	  	//从 output 文件夹取资源文件，如果没有的话，从 source 下取
 	  	if(fs.existsSync(file)){
 	  		content = fs.readFileSync(file);	
   		}else if(fs.existsSync(devFile)){
