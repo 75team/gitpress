@@ -110,6 +110,7 @@ var defaultConf = {
     },
     //domain_alias:  ["your.domain"],
     //friends   :   [{name, title, url}],
+    "friends"   : null, 
     //"title"       : "[default is project name]",
     "comment"   : "on",
     "template"  : "default",
