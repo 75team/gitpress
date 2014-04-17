@@ -345,14 +345,18 @@ GitPress.prototype.getContent = function(path, sha, not_md5) {
         console.log(ex);
     }
 
+    var user = this.options.user,
+        repo = this.options.repo;
+
     console.log('get ' + path + ':' + sha + ' - ' + new Date());
 
     github.repos.getContent({
-        user: this.options.user,
-        repo: this.options.repo,
+        user: user,
+        repo: repo,
         path: path
     }, function(err, res){
         if(err){
+            console.log(err);
             deferred.reject(err);
         }else{
             res.timeStamp = Date.now();
@@ -427,7 +431,8 @@ GitPress.prototype.getContent = function(path, sha, not_md5) {
     });
 
     return deferred.promise.otherwise(function(err){
-        console.log('get ' + path + ' failed. ' + err + ' - ' + new Date());
+        console.log('get ' + path + ' of ' + user + ':' + repo +' failed. ' 
+            + err + ' - ' + new Date());
         return deferred.promise;        
     });
 }
