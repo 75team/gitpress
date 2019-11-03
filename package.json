@@ -18,7 +18,7 @@
     "node-mixin": "~1.0.0",
     "github": "~0.1.12",
     "http-proxy": "~0.10.3",
-    "mime": "~1.2.11",
+    "mime": "~2.4.4",
     "rss": "~0.2.1",
     "marked": "https://github.com/akira-cn/marked/tarball/gitpress",
     "highlight.js": "~7.5.0"
