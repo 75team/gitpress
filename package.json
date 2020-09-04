@@ -17,7 +17,7 @@
     "thinkjs": ">=0.1.10",
     "node-mixin": "~1.0.0",
     "github": "~0.1.12",
-    "http-proxy": "~0.10.3",
+    "http-proxy": "~1.18.1",
     "mime": "~1.2.11",
     "rss": "~0.2.1",
     "marked": "https://github.com/akira-cn/marked/tarball/gitpress",
